@@ -1,0 +1,28 @@
+:root {
+  font-family: Inter, system-ui, sans-serif;
+  color: #142536;
+  background: #f3f7fa;
+}
+
+body {
+  margin: 0;
+}
+
+main {
+  max-width: 48rem;
+  margin: 18vh auto;
+  padding: 2rem;
+}
+
+h1 {
+  margin: 0.25rem 0;
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  letter-spacing: 0.08em;
+}
+
+.eyebrow,
+.status {
+  color: #286987;
+  font-weight: 600;
+}
+
