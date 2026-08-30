@@ -1,0 +1,31 @@
+{
+  "provider": "U.S. National Ice Center (USNIC)",
+  "product": "Antarctic Iceberg Data",
+  "source_page": "https://usicecenter.gov/Products/AntarcIcebergs",
+  "download_url": "https://usicecenter.gov/File/DownloadCurrent?pId=134",
+  "provider_filename": "AntarcticIcebergs_20260827.csv",
+  "provider_report_date": "2026-08-27",
+  "retrieved_at": "2026-08-30T22:22:22.182025Z",
+  "classification": "OBSERVATION",
+  "file_size_bytes": 1897,
+  "sha256": "8d02d0697f9f07d032dbad7141531b3a926d05c83b65b28fdc564d398fc2fb50",
+  "encoding": "UTF-8 with BOM",
+  "delimiter": ",",
+  "headers": [
+    "Iceberg",
+    "Length (NM)",
+    "Width (NM)",
+    "Latitude",
+    "Longitude",
+    "Area (sqMI)",
+    "Area (sqNM)",
+    "Area (sqKM)",
+    "Last Update"
+  ],
+  "total_rows": 33,
+  "valid_coordinate_records": 33,
+  "rejected_records": 0,
+  "bharati_region_count": 6,
+  "bharati_region_ids": ["D15A", "D15B", "D15C", "D15D", "D23", "D34"],
+  "tracking_criteria": "20 square nautical miles or greater OR 10 nautical miles on longest axis"
+}

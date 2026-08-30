@@ -1,0 +1,2 @@
+"""Verified iceberg observation ingestion."""
+

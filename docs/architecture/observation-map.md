@@ -27,3 +27,8 @@ scientific raster in this checkpoint.
 
 Land context is Natural Earth 1:110m land data (public domain). Sea-ice attribution remains
 visible as Copernicus Marine Service and OSI-SAF / EUMETSAT.
+
+Checkpoint 4 adds a separate read-only path for the current USNIC CSV registry. Signed source
+coordinates are parsed into typed `OBSERVATION` records, filtered against the existing configured
+Bharati bounds, served without prediction fields, and transformed only for OpenLayers display.
+Each marker is a single current registry position—not a track, velocity estimate, or forecast.

@@ -29,3 +29,24 @@ The source file contains global `start_date`, `stop_date`, and creation-history 
 2025 that do not match the subset coordinate selected by the live service. POLARIS-AI therefore
 uses the decoded `time` coordinate (`2026-08-29T00:00:00Z`) as the observation time and preserves
 the inconsistent global attributes in the inspection record rather than silently rewriting them.
+
+## Checkpoint 4 current iceberg registry
+
+- **Provider:** U.S. National Ice Center (USNIC)
+- **Product:** Antarctic Iceberg Data
+- **Format:** official current CSV
+- **Provider report date:** `2026-08-27` (date precision only)
+- **Retrieved:** `2026-08-30T22:22:22.182025Z`
+- **Classification:** `OBSERVATION`
+- **Current records:** 33, all with valid coordinates
+- **Bharati-region records:** 6
+
+USNIC names and tracks Antarctic icebergs meeting either 20 square nautical miles or greater,
+or 10 nautical miles on the longest axis. The product is generally updated weekly according to
+USNIC product documentation; the live product page provides a current file and archive but did
+not state a cadence in its visible text during this retrieval.
+
+The registry covers qualifying named/tracked icebergs. It is **not a complete catalogue of all
+smaller iceberg hazards**, and absence from this registry does not establish the absence of an
+iceberg. Future Sentinel-1/SAR detection is planned as a complementary local hazard source; it is
+not implemented.
