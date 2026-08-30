@@ -1,0 +1,63 @@
+{
+  "classification": "OBSERVATION",
+  "source": "Copernicus Marine Service / OSI-SAF",
+  "product_id": "SEAICE_GLO_SEAICE_L4_NRT_OBSERVATIONS_011_001",
+  "dataset_id": "osisaf_obs-si_glo_phy-sic-south_nrt_amsr2_l4_P1D-m",
+  "dataset_version": "202304",
+  "observed_at": "2026-08-29T00:00:00Z",
+  "downloaded_at": "2026-08-30T22:00:54.191121Z",
+  "variable": {
+    "name": "ice_conc",
+    "standard_name": "sea_ice_area_fraction",
+    "units": "%",
+    "dtype_after_cf_decoding": "float32",
+    "dimensions": ["time", "latitude", "longitude"],
+    "shape": [1, 45, 140],
+    "fill_value": "NaN",
+    "scale_factor": null,
+    "add_offset": null,
+    "regrid_method": "bilinear",
+    "valid_min": 44.52079391479492,
+    "valid_max": 100.0,
+    "valid_count": 2858,
+    "missing_count": 3442
+  },
+  "coordinates": {
+    "latitude": {
+      "minimum": -70.40000000000083,
+      "maximum": -66.00000000000108,
+      "units": "degrees_north",
+      "size": 45
+    },
+    "longitude": {
+      "minimum": 70.09999999998578,
+      "maximum": 83.999999999985,
+      "units": "degrees_east",
+      "size": 140
+    },
+    "time": {
+      "decoded": "2026-08-29T00:00:00Z",
+      "encoded_value": 1535500800.0,
+      "units": "seconds since 1978-01-01",
+      "calendar": "standard",
+      "size": 1
+    }
+  },
+  "native_grid": {
+    "structure": "regular latitude/longitude provider subset grid",
+    "spatial_resolution": "0.1 degree",
+    "grid_mapping_variable": null,
+    "epsg": null,
+    "note": "EPSG unresolved at Checkpoint 2; no POLARIS-AI reprojection was performed. The provider records regrid_method=bilinear."
+  },
+  "raw_file": {
+    "local_file": "data/raw/copernicus/osi_saf_sic_south/2026-08-29/osisaf_sic_south_2026-08-29_bharati_prydz.nc",
+    "file_size_bytes": 49218,
+    "sha256": "4dfbd6016cd299a8f44a1d03e66a6b274601afa2b8f8f360295102fdd6f3b48d",
+    "git_ignored": true
+  },
+  "scientific_notes": [
+    "This is an observation, not a forecast or model prediction.",
+    "The source global start/stop/history attributes refer to 2025 and conflict with the decoded subset time; the decoded time coordinate is retained as authoritative for this acquired slice."
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "retrieved_date": "2026-08-30",
+  "toolbox_version": "2.4.1",
+  "product": {
+    "product_id": "SEAICE_GLO_SEAICE_L4_NRT_OBSERVATIONS_011_001",
+    "title": "Global Ocean - Arctic and Antarctic - Sea Ice Concentration, Edge, Type and Drift (OSI-SAF)",
+    "processing_level": "Level 4",
+    "production_center": "MET Norway",
+    "sources": ["Satellite observations"],
+    "documented_resolution": "10 km",
+    "documented_projection": "polar stereographic"
+  },
+  "dataset": {
+    "dataset_id": "osisaf_obs-si_glo_phy-sic-south_nrt_amsr2_l4_P1D-m",
+    "dataset_name": "Level-3 Sea Ice Concentration Analysis (AMSR2) from OSI SAF EUMETSAT",
+    "version": "202304",
+    "variable": {
+      "short_name": "ice_conc",
+      "standard_name": "sea_ice_area_fraction",
+      "units": "%",
+      "minimum_value": null,
+      "maximum_value": null
+    },
+    "temporal_coverage": {
+      "minimum": "2023-03-23T00:00:00Z",
+      "maximum": "2026-08-29T00:00:00Z",
+      "step": "P1D"
+    },
+    "original_grid": {
+      "coordinates": ["time", "yc", "xc"],
+      "xc_units": "km",
+      "yc_units": "km",
+      "x_step": 10.0,
+      "y_step": -10.0,
+      "bbox": [-179.85494995117188, -90.0, 180.0, -39.287017822265625]
+    }
+  },
+  "note": "This is a targeted summary of live catalogue metadata, not a catalogue dump. NetCDF attributes remain authoritative for fill values and native grid mapping."
+}
