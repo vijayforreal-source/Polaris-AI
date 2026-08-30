@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from backend.app.api.health import router as health_router
+from backend.app.api.sea_ice import router as sea_ice_router
 from backend.app.core.config import get_settings
 from backend.app.core.logging import configure_logging
 
@@ -19,6 +20,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 app.include_router(health_router)
+app.include_router(sea_ice_router)
 
 
 @app.get("/")
@@ -28,4 +30,3 @@ async def root() -> dict[str, str]:
         "status": "operational",
         "phase": "Day 1 - Foundation",
     }
-
