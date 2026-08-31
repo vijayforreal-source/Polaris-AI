@@ -1,0 +1,690 @@
+{
+  "iceberg_id": "A76C",
+  "model_name": "POLARIS HYBRID v0.1",
+  "evaluation_mode": "HISTORICAL HINDCAST",
+  "prediction_classification": "MODEL_PREDICTION",
+  "split": {
+    "fit": {
+      "intervals": 20,
+      "start": "2026-01-02",
+      "end": "2026-05-21"
+    },
+    "uncertainty_calibration": {
+      "intervals": 7,
+      "start": "2026-05-21",
+      "end": "2026-07-10"
+    },
+    "final_test": {
+      "intervals": 7,
+      "start": "2026-07-10",
+      "end": "2026-08-27"
+    }
+  },
+  "lambda_search": [
+    {
+      "lambda": 0.0,
+      "mean_error_km": 35.242509530551374,
+      "median_error_km": 29.35149334156374
+    },
+    {
+      "lambda": 0.05,
+      "mean_error_km": 34.77108498638321,
+      "median_error_km": 28.414603288915032
+    },
+    {
+      "lambda": 0.1,
+      "mean_error_km": 34.32854809677128,
+      "median_error_km": 27.75982466249048
+    },
+    {
+      "lambda": 0.15,
+      "mean_error_km": 33.91910995124908,
+      "median_error_km": 26.88256286958478
+    },
+    {
+      "lambda": 0.2,
+      "mean_error_km": 33.50315905010166,
+      "median_error_km": 26.17823443076894
+    },
+    {
+      "lambda": 0.25,
+      "mean_error_km": 33.10657264201777,
+      "median_error_km": 26.310244338888936
+    },
+    {
+      "lambda": 0.3,
+      "mean_error_km": 32.74415994851124,
+      "median_error_km": 26.44002704453908
+    },
+    {
+      "lambda": 0.35,
+      "mean_error_km": 32.44685594380394,
+      "median_error_km": 26.37628532131044
+    },
+    {
+      "lambda": 0.4,
+      "mean_error_km": 32.259280823793986,
+      "median_error_km": 26.217230735482303
+    },
+    {
+      "lambda": 0.45,
+      "mean_error_km": 32.17359665663097,
+      "median_error_km": 26.04767226958606
+    },
+    {
+      "lambda": 0.5,
+      "mean_error_km": 32.1873367952184,
+      "median_error_km": 25.771994030396765
+    },
+    {
+      "lambda": 0.55,
+      "mean_error_km": 32.2665322024829,
+      "median_error_km": 25.381132027701252
+    },
+    {
+      "lambda": 0.6,
+      "mean_error_km": 32.357102455213216,
+      "median_error_km": 24.99513190633383
+    },
+    {
+      "lambda": 0.65,
+      "mean_error_km": 32.466940697457545,
+      "median_error_km": 24.61654861622688
+    },
+    {
+      "lambda": 0.7,
+      "mean_error_km": 32.56955571124725,
+      "median_error_km": 25.06114505372188
+    },
+    {
+      "lambda": 0.75,
+      "mean_error_km": 32.65988290867307,
+      "median_error_km": 26.260337569824614
+    },
+    {
+      "lambda": 0.8,
+      "mean_error_km": 32.731666893757776,
+      "median_error_km": 26.285669148681812
+    },
+    {
+      "lambda": 0.85,
+      "mean_error_km": 32.83011762557977,
+      "median_error_km": 25.82034944779579
+    },
+    {
+      "lambda": 0.9,
+      "mean_error_km": 32.93045989654214,
+      "median_error_km": 25.30593931681467
+    },
+    {
+      "lambda": 0.95,
+      "mean_error_km": 33.01080331232062,
+      "median_error_km": 25.40222699192139
+    },
+    {
+      "lambda": 1.0,
+      "mean_error_km": 33.05598125512267,
+      "median_error_km": 25.826919980022097
+    }
+  ],
+  "selected_lambda": 0.45,
+  "parameters_fitted": [
+    "effective_current_lambda"
+  ],
+  "metrics": {
+    "fit": {
+      "P0_PERSISTENCE": {
+        "valid_intervals": 20,
+        "mean_error_km": 43.38302236570675,
+        "median_error_km": 36.162893119878895,
+        "rmse_error_km": 55.92295984795307,
+        "p90_error_km": 71.71401707420078,
+        "maximum_error_km": 157.04553727986325,
+        "mean_error_nm": 23.42495808083518,
+        "median_bearing_error_degrees": null
+      },
+      "P1_CONSTANT_VELOCITY": {
+        "valid_intervals": 19,
+        "mean_error_km": 57.26474726538516,
+        "median_error_km": 40.17474961456994,
+        "rmse_error_km": 76.74379900365321,
+        "p90_error_km": 98.65488524997366,
+        "maximum_error_km": 201.76710401341765,
+        "mean_error_nm": 30.920489884117256,
+        "median_bearing_error_degrees": 45.50199191753802
+      },
+      "P2_SURFACE_CURRENT": {
+        "valid_intervals": 20,
+        "mean_error_km": 35.242509530551374,
+        "median_error_km": 29.35149334156374,
+        "rmse_error_km": 42.739861168254606,
+        "p90_error_km": 63.09222994769696,
+        "maximum_error_km": 105.94834573324577,
+        "mean_error_nm": 19.02943279187439,
+        "median_bearing_error_degrees": 41.242408910662306
+      },
+      "P3_WDE17_SURFACE": {
+        "valid_intervals": 20,
+        "mean_error_km": 35.67677541831544,
+        "median_error_km": 28.297455060148263,
+        "rmse_error_km": 43.40795103206013,
+        "p90_error_km": 63.07085685273215,
+        "maximum_error_km": 108.1867064996347,
+        "mean_error_nm": 19.263917612481336,
+        "median_bearing_error_degrees": 48.00669876568443
+      },
+      "H0_EFFECTIVE_CURRENT": {
+        "valid_intervals": 20,
+        "mean_error_km": 32.17359665663097,
+        "median_error_km": 26.04767226958606,
+        "rmse_error_km": 41.12105594659864,
+        "p90_error_km": 64.23416062954604,
+        "maximum_error_km": 109.85580729056585,
+        "mean_error_nm": 17.372352406388213,
+        "median_bearing_error_degrees": 27.96960275537586
+      },
+      "H1_WDE17_EFFECTIVE_CURRENT": {
+        "valid_intervals": 20,
+        "mean_error_km": 32.44371250099843,
+        "median_error_km": 25.08640507542838,
+        "rmse_error_km": 41.95038511946617,
+        "p90_error_km": 60.89449209166265,
+        "maximum_error_km": 111.34270442911136,
+        "mean_error_nm": 17.518203294275608,
+        "median_bearing_error_degrees": 36.99519548725216
+      }
+    },
+    "uncertainty_calibration": {
+      "P0_PERSISTENCE": {
+        "valid_intervals": 7,
+        "mean_error_km": 90.75293641111008,
+        "median_error_km": 71.43322541603668,
+        "rmse_error_km": 114.51065451932486,
+        "p90_error_km": 172.14407521767993,
+        "maximum_error_km": 184.88501717715403,
+        "mean_error_nm": 49.002665448763544,
+        "median_bearing_error_degrees": null
+      },
+      "P1_CONSTANT_VELOCITY": {
+        "valid_intervals": 7,
+        "mean_error_km": 107.5233677815446,
+        "median_error_km": 114.87210338504572,
+        "rmse_error_km": 115.29438095794076,
+        "p90_error_km": 147.84732464689392,
+        "maximum_error_km": 148.2065198642734,
+        "mean_error_nm": 58.05797396411695,
+        "median_bearing_error_degrees": 36.85151473025317
+      },
+      "P2_SURFACE_CURRENT": {
+        "valid_intervals": 7,
+        "mean_error_km": 64.57198142018333,
+        "median_error_km": 72.30370947032937,
+        "rmse_error_km": 68.47108380412784,
+        "p90_error_km": 90.5218190694406,
+        "maximum_error_km": 95.83483341727406,
+        "mean_error_nm": 34.86608068044456,
+        "median_bearing_error_degrees": 11.136933346093315
+      },
+      "P3_WDE17_SURFACE": {
+        "valid_intervals": 7,
+        "mean_error_km": 66.47251644769509,
+        "median_error_km": 76.37384499996897,
+        "rmse_error_km": 70.43513268003244,
+        "p90_error_km": 89.05745394623611,
+        "maximum_error_km": 93.62137240408131,
+        "mean_error_nm": 35.892287498755444,
+        "median_bearing_error_degrees": 12.295623454023882
+      },
+      "H0_EFFECTIVE_CURRENT": {
+        "valid_intervals": 7,
+        "mean_error_km": 61.77359081980965,
+        "median_error_km": 58.0809823812134,
+        "rmse_error_km": 67.00084639933239,
+        "p90_error_km": 97.40240681530236,
+        "maximum_error_km": 106.96093714429483,
+        "mean_error_nm": 33.355070637046246,
+        "median_bearing_error_degrees": 11.3226684511082
+      },
+      "H1_WDE17_EFFECTIVE_CURRENT": {
+        "valid_intervals": 7,
+        "mean_error_km": 64.76093684106728,
+        "median_error_km": 65.75265957300509,
+        "rmse_error_km": 69.96060872999043,
+        "p90_error_km": 99.61187197154092,
+        "maximum_error_km": 109.47036040583504,
+        "mean_error_nm": 34.96810844550069,
+        "median_bearing_error_degrees": 12.878736183910405
+      }
+    },
+    "final_test": {
+      "P0_PERSISTENCE": {
+        "valid_intervals": 7,
+        "mean_error_km": 45.84643001014043,
+        "median_error_km": 44.48484311313593,
+        "rmse_error_km": 52.05548935896866,
+        "p90_error_km": 71.23598949699803,
+        "maximum_error_km": 94.62764651177856,
+        "mean_error_nm": 24.755091798131982,
+        "median_bearing_error_degrees": null
+      },
+      "P1_CONSTANT_VELOCITY": {
+        "valid_intervals": 7,
+        "mean_error_km": 46.2203663771234,
+        "median_error_km": 49.757256995470115,
+        "rmse_error_km": 48.5957685988011,
+        "p90_error_km": 60.27805913035956,
+        "maximum_error_km": 66.87244468919792,
+        "mean_error_nm": 24.95700128354395,
+        "median_bearing_error_degrees": 77.5040217687191
+      },
+      "P2_SURFACE_CURRENT": {
+        "valid_intervals": 7,
+        "mean_error_km": 35.53816889347944,
+        "median_error_km": 34.091535725706805,
+        "rmse_error_km": 40.476263472850945,
+        "p90_error_km": 59.73208150417082,
+        "maximum_error_km": 59.91357337963744,
+        "mean_error_nm": 19.189076076392784,
+        "median_bearing_error_degrees": 15.401499949353365
+      },
+      "P3_WDE17_SURFACE": {
+        "valid_intervals": 6,
+        "mean_error_km": 32.3197049013273,
+        "median_error_km": 27.360217003317167,
+        "rmse_error_km": 37.12964277046413,
+        "p90_error_km": 55.54414251621729,
+        "maximum_error_km": 61.049815948972466,
+        "mean_error_nm": 17.451244547152967,
+        "median_bearing_error_degrees": 12.507287786959097
+      },
+      "H0_EFFECTIVE_CURRENT": {
+        "valid_intervals": 7,
+        "mean_error_km": 33.36887527464932,
+        "median_error_km": 34.39394374616425,
+        "rmse_error_km": 37.70451548302783,
+        "p90_error_km": 54.1408766204839,
+        "maximum_error_km": 59.709202153914454,
+        "mean_error_nm": 18.017751228212376,
+        "median_bearing_error_degrees": 28.42189605649719
+      },
+      "H1_WDE17_EFFECTIVE_CURRENT": {
+        "valid_intervals": 6,
+        "mean_error_km": 30.013785549908025,
+        "median_error_km": 27.936713209815917,
+        "rmse_error_km": 33.73673585652121,
+        "p90_error_km": 48.64096501071893,
+        "maximum_error_km": 52.80135297666245,
+        "mean_error_nm": 16.206147705133922,
+        "median_bearing_error_degrees": 15.97363532187262
+      }
+    }
+  },
+  "paired_test_errors": {
+    "surface_current": [
+      {
+        "model": "P2_SURFACE_CURRENT",
+        "start_date": "2026-07-10",
+        "end_date": "2026-07-17",
+        "horizon_hours": 168.0,
+        "endpoint_error_km": 34.091535725706805,
+        "endpoint_error_nm": 18.407956655349246,
+        "observed_displacement_km": 43.34243666669398,
+        "predicted_displacement_km": 73.87545671389626,
+        "bearing_error_degrees": 15.401499949353365,
+        "status": "COMPLETE"
+      },
+      {
+        "model": "P2_SURFACE_CURRENT",
+        "start_date": "2026-07-17",
+        "end_date": "2026-07-23",
+        "horizon_hours": 144.0,
+        "endpoint_error_km": 49.563519858302975,
+        "endpoint_error_nm": 26.76215975070355,
+        "observed_displacement_km": 21.676979490770147,
+        "predicted_displacement_km": 45.854180934775215,
+        "bearing_error_degrees": 86.65635464704508,
+        "status": "COMPLETE"
+      },
+      {
+        "model": "P2_SURFACE_CURRENT",
+        "start_date": "2026-07-23",
+        "end_date": "2026-07-30",
+        "horizon_hours": 168.0,
+        "endpoint_error_km": 59.91357337963744,
+        "endpoint_error_nm": 32.35074156567896,
+        "observed_displacement_km": 44.48484311313593,
+        "predicted_displacement_km": 103.80171237603723,
+        "bearing_error_degrees": 7.1166370817156235,
+        "status": "COMPLETE"
+      },
+      {
+        "model": "P2_SURFACE_CURRENT",
+        "start_date": "2026-07-30",
+        "end_date": "2026-08-07",
+        "horizon_hours": 192.0,
+        "endpoint_error_km": 17.975688141281424,
+        "endpoint_error_nm": 9.706095108683273,
+        "observed_displacement_km": 55.641551487144305,
+        "predicted_displacement_km": 41.96611379243865,
+        "bearing_error_degrees": 13.866908667528804,
+        "status": "COMPLETE"
+      },
+      {
+        "model": "P2_SURFACE_CURRENT",
+        "start_date": "2026-08-07",
+        "end_date": "2026-08-13",
+        "horizon_hours": 144.0,
+        "endpoint_error_km": 14.823620067755584,
+        "endpoint_error_nm": 8.00411450742742,
+        "observed_displacement_km": 11.58988239106604,
+        "predicted_displacement_km": 22.623776662032103,
+        "bearing_error_degrees": 35.596346611078275,
+        "status": "COMPLETE"
+      },
+      {
+        "model": "P2_SURFACE_CURRENT",
+        "start_date": "2026-08-13",
+        "end_date": "2026-08-20",
+        "horizon_hours": 168.0,
+        "endpoint_error_km": 12.78815816114541,
+        "endpoint_error_nm": 6.905053002778298,
+        "observed_displacement_km": 49.56167041039411,
+        "predicted_displacement_km": 57.41167445951146,
+        "bearing_error_degrees": 10.859821354418017,
+        "status": "COMPLETE"
+      },
+      {
+        "model": "P2_SURFACE_CURRENT",
+        "start_date": "2026-08-20",
+        "end_date": "2026-08-27",
+        "horizon_hours": 168.0,
+        "endpoint_error_km": 59.61108692052641,
+        "endpoint_error_nm": 32.18741194412873,
+        "observed_displacement_km": 94.62764651177856,
+        "predicted_displacement_km": 81.18310548552203,
+        "bearing_error_degrees": 38.69626878276006,
+        "status": "COMPLETE"
+      }
+    ],
+    "hybrid_effective_current": [
+      {
+        "model": "H0_EFFECTIVE_CURRENT",
+        "start_date": "2026-07-10",
+        "end_date": "2026-07-17",
+        "horizon_hours": 168.0,
+        "endpoint_error_km": 34.39394374616425,
+        "endpoint_error_nm": 18.57124392341482,
+        "observed_displacement_km": 43.34243666669398,
+        "predicted_displacement_km": 65.63897179199198,
+        "bearing_error_degrees": 28.42189605649719,
+        "status": "COMPLETE"
+      },
+      {
+        "model": "H0_EFFECTIVE_CURRENT",
+        "start_date": "2026-07-17",
+        "end_date": "2026-07-23",
+        "horizon_hours": 144.0,
+        "endpoint_error_km": 43.99171017012925,
+        "endpoint_error_nm": 23.753623202013635,
+        "observed_displacement_km": 21.676979490770147,
+        "predicted_displacement_km": 41.15057156450114,
+        "bearing_error_degrees": 82.65804739970326,
+        "status": "COMPLETE"
+      },
+      {
+        "model": "H0_EFFECTIVE_CURRENT",
+        "start_date": "2026-07-23",
+        "end_date": "2026-07-30",
+        "horizon_hours": 168.0,
+        "endpoint_error_km": 50.42865959819686,
+        "endpoint_error_nm": 27.229297839199166,
+        "observed_displacement_km": 44.48484311313593,
+        "predicted_displacement_km": 94.80042111934955,
+        "bearing_error_degrees": 2.9783375372430214,
+        "status": "COMPLETE"
+      },
+      {
+        "model": "H0_EFFECTIVE_CURRENT",
+        "start_date": "2026-07-30",
+        "end_date": "2026-08-07",
+        "horizon_hours": 192.0,
+        "endpoint_error_km": 20.515479010965255,
+        "endpoint_error_nm": 11.077472468123787,
+        "observed_displacement_km": 55.641551487144305,
+        "predicted_displacement_km": 35.37092256800029,
+        "bearing_error_degrees": 4.082267381131601,
+        "status": "COMPLETE"
+      },
+      {
+        "model": "H0_EFFECTIVE_CURRENT",
+        "start_date": "2026-08-07",
+        "end_date": "2026-08-13",
+        "horizon_hours": 144.0,
+        "endpoint_error_km": 11.068776731866356,
+        "endpoint_error_nm": 5.976661302303648,
+        "observed_displacement_km": 11.58988239106604,
+        "predicted_displacement_km": 17.870271346986947,
+        "bearing_error_degrees": 36.92263918774074,
+        "status": "COMPLETE"
+      },
+      {
+        "model": "H0_EFFECTIVE_CURRENT",
+        "start_date": "2026-08-13",
+        "end_date": "2026-08-20",
+        "horizon_hours": 168.0,
+        "endpoint_error_km": 13.4743555113088,
+        "endpoint_error_nm": 7.275569930512311,
+        "observed_displacement_km": 49.56167041039411,
+        "predicted_displacement_km": 40.90981808569267,
+        "bearing_error_degrees": 13.173044373595445,
+        "status": "COMPLETE"
+      },
+      {
+        "model": "H0_EFFECTIVE_CURRENT",
+        "start_date": "2026-08-20",
+        "end_date": "2026-08-27",
+        "horizon_hours": 168.0,
+        "endpoint_error_km": 59.709202153914454,
+        "endpoint_error_nm": 32.24038993191925,
+        "observed_displacement_km": 94.62764651177856,
+        "predicted_displacement_km": 93.1860292914169,
+        "bearing_error_degrees": 37.06520402054059,
+        "status": "COMPLETE"
+      }
+    ]
+  },
+  "paired_bootstrap": {
+    "seed": 26059,
+    "resamples": 10000,
+    "mean_difference_km": -2.169293618830118,
+    "ci95_lower_km": -5.271472727658248,
+    "ci95_upper_km": 0.5351211492551619,
+    "conclusive_improvement": false
+  },
+  "uncertainty": {
+    "label": "EMPIRICAL HINDCAST ERROR ENVELOPE",
+    "calibration_intervals": 7,
+    "radii_km": {
+      "50": 58.0809823812134,
+      "80": 91.0300532626407,
+      "95": 106.96093714429483
+    },
+    "final_test_coverage": {
+      "50": 0.8571428571428571,
+      "80": 1.0,
+      "95": 1.0
+    }
+  },
+  "pretest_model_selection": "H0_EFFECTIVE_CURRENT",
+  "selected_production_candidate": "P2_SURFACE_CURRENT",
+  "scientific_interpretation": "Hybrid adoption requires lower locked-test mean error and a paired bootstrap interval wholly below zero; otherwise surface current remains the candidate.",
+  "hindcast_example": {
+    "start": {
+      "date": "2026-08-20",
+      "latitude": -52.99,
+      "longitude": -30.2
+    },
+    "actual_endpoint": {
+      "date": "2026-08-27",
+      "latitude": -53.73,
+      "longitude": -29.5
+    },
+    "trajectory": [
+      {
+        "valid_at": "2026-08-20T00:00:00Z",
+        "latitude": -52.99,
+        "longitude": -30.2
+      },
+      {
+        "valid_at": "2026-08-20T06:00:00Z",
+        "latitude": -53.022995351384495,
+        "longitude": -30.167665488860802
+      },
+      {
+        "valid_at": "2026-08-20T12:00:00Z",
+        "latitude": -53.058226697938444,
+        "longitude": -30.143323103564953
+      },
+      {
+        "valid_at": "2026-08-20T18:00:00Z",
+        "latitude": -53.0915579822618,
+        "longitude": -30.110067879967495
+      },
+      {
+        "valid_at": "2026-08-21T00:00:00Z",
+        "latitude": -53.12405214303613,
+        "longitude": -30.080942516631488
+      },
+      {
+        "valid_at": "2026-08-21T06:00:00Z",
+        "latitude": -53.15658026014959,
+        "longitude": -30.04684019592258
+      },
+      {
+        "valid_at": "2026-08-21T12:00:00Z",
+        "latitude": -53.18256414608718,
+        "longitude": -30.019395120076236
+      },
+      {
+        "valid_at": "2026-08-21T18:00:00Z",
+        "latitude": -53.2141877359195,
+        "longitude": -30.00176608858404
+      },
+      {
+        "valid_at": "2026-08-22T00:00:00Z",
+        "latitude": -53.2421060658118,
+        "longitude": -29.98116735704577
+      },
+      {
+        "valid_at": "2026-08-22T06:00:00Z",
+        "latitude": -53.26856438745349,
+        "longitude": -29.973571842460586
+      },
+      {
+        "valid_at": "2026-08-22T12:00:00Z",
+        "latitude": -53.29649561921209,
+        "longitude": -29.967041990434907
+      },
+      {
+        "valid_at": "2026-08-22T18:00:00Z",
+        "latitude": -53.317030855458896,
+        "longitude": -29.96771421187016
+      },
+      {
+        "valid_at": "2026-08-23T00:00:00Z",
+        "latitude": -53.34046658401774,
+        "longitude": -29.979251981867144
+      },
+      {
+        "valid_at": "2026-08-23T06:00:00Z",
+        "latitude": -53.365202107118506,
+        "longitude": -29.995113178758942
+      },
+      {
+        "valid_at": "2026-08-23T12:00:00Z",
+        "latitude": -53.39172751136895,
+        "longitude": -30.022828812151147
+      },
+      {
+        "valid_at": "2026-08-23T18:00:00Z",
+        "latitude": -53.42424381877339,
+        "longitude": -30.056364375281266
+      },
+      {
+        "valid_at": "2026-08-24T00:00:00Z",
+        "latitude": -53.457980269016254,
+        "longitude": -30.10215249292784
+      },
+      {
+        "valid_at": "2026-08-24T06:00:00Z",
+        "latitude": -53.496780898972986,
+        "longitude": -30.153929323638295
+      },
+      {
+        "valid_at": "2026-08-24T12:00:00Z",
+        "latitude": -53.53273172653834,
+        "longitude": -30.204752866535983
+      },
+      {
+        "valid_at": "2026-08-24T18:00:00Z",
+        "latitude": -53.570315358218544,
+        "longitude": -30.25707715658
+      },
+      {
+        "valid_at": "2026-08-25T00:00:00Z",
+        "latitude": -53.60842843144961,
+        "longitude": -30.298397656909522
+      },
+      {
+        "valid_at": "2026-08-25T06:00:00Z",
+        "latitude": -53.64584093905702,
+        "longitude": -30.32972074392602
+      },
+      {
+        "valid_at": "2026-08-25T12:00:00Z",
+        "latitude": -53.68056234885585,
+        "longitude": -30.35348599253252
+      },
+      {
+        "valid_at": "2026-08-25T18:00:00Z",
+        "latitude": -53.7091566619242,
+        "longitude": -30.380247348667783
+      },
+      {
+        "valid_at": "2026-08-26T00:00:00Z",
+        "latitude": -53.73716261309114,
+        "longitude": -30.401229040116
+      },
+      {
+        "valid_at": "2026-08-26T06:00:00Z",
+        "latitude": -53.761205932980204,
+        "longitude": -30.41381275596479
+      },
+      {
+        "valid_at": "2026-08-26T12:00:00Z",
+        "latitude": -53.78368810858032,
+        "longitude": -30.41317600257462
+      },
+      {
+        "valid_at": "2026-08-26T18:00:00Z",
+        "latitude": -53.802141116182376,
+        "longitude": -30.40216515010646
+      },
+      {
+        "valid_at": "2026-08-27T00:00:00Z",
+        "latitude": -53.81931481343199,
+        "longitude": -30.3930203036969
+      }
+    ],
+    "endpoint_error_km": 59.709202153914454,
+    "uncertainty_radii_km": {
+      "50": 58.0809823812134,
+      "80": 91.0300532626407,
+      "95": 106.96093714429483
+    },
+    "forcing_provenance": {
+      "surface": "cmems_mod_glo_phy-cur_anfc_0.083deg_PT6H-i / 0.494 m",
+      "depth": "cmems_mod_glo_phy-cur_anfc_0.083deg_PT6H-i / 29.445 m"
+    }
+  }
+}

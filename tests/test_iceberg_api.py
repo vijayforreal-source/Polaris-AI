@@ -70,3 +70,27 @@ def test_a76c_physics_evaluation_is_hindcast_model_output() -> None:
     assert payload["forcing"]["wind_classification"] == "REANALYSIS"
     assert payload["models"]["P3_WDE17_SURFACE"]["n"] == 33
     assert "forecast" not in payload["label"].lower()
+
+
+def test_hybrid_api_exposes_locked_hindcast_without_operational_claim() -> None:
+    response = client.get("/api/icebergs/A76C/hybrid-evaluation")
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["evaluation_mode"] == "HISTORICAL HINDCAST"
+    assert payload["prediction_classification"] == "MODEL_PREDICTION"
+    assert payload["selected_lambda"] == 0.45
+    assert payload["split"]["final_test"]["intervals"] == 7
+    assert payload["selected_production_candidate"] == "P2_SURFACE_CURRENT"
+    assert "hindcast_example" not in payload
+
+
+def test_hybrid_hindcast_endpoint_has_real_endpoint_and_uncertainty() -> None:
+    response = client.get("/api/icebergs/A76C/hybrid-hindcast/2026-08-27")
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["prediction_classification"] == "MODEL_PREDICTION"
+    assert payload["evaluation_mode"] == "HISTORICAL HINDCAST"
+    assert payload["actual_endpoint"]["date"] == "2026-08-27"
+    assert len(payload["trajectory"]) > 2
+    assert set(payload["uncertainty_radii_km"]) == {"50", "80", "95"}
+    assert client.get("/api/icebergs/A76C/hybrid-hindcast/2026-01-01").status_code == 404

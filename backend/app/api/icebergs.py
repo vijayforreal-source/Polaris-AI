@@ -6,6 +6,7 @@ from fastapi import APIRouter, HTTPException, Query
 
 from backend.iceberg.baseline import rolling_origin_validation
 from backend.iceberg.history import load_history, tracks_by_iceberg
+from backend.iceberg.hybrid.results import load_hybrid_results
 from backend.iceberg.motion import analyze_track
 from backend.iceberg.physics.results import A76C_PHYSICS_EVALUATION
 from backend.iceberg.usnic_registry import (
@@ -128,3 +129,31 @@ async def iceberg_baseline(iceberg_id: str) -> dict[str, Any]:
 async def a76c_physics_evaluation() -> dict[str, Any]:
     """Return the reproducible aggregate historical hindcast benchmark."""
     return A76C_PHYSICS_EVALUATION
+
+
+@router.get("/A76C/hybrid-evaluation")
+async def a76c_hybrid_evaluation() -> dict[str, Any]:
+    try:
+        result = load_hybrid_results()
+    except (FileNotFoundError, OSError, ValueError) as error:
+        raise HTTPException(status_code=503, detail=str(error)) from error
+    return {key: value for key, value in result.items() if key != "hindcast_example"}
+
+
+@router.get("/A76C/hybrid-hindcast/{end_date}")
+async def a76c_hybrid_hindcast(end_date: str) -> dict[str, Any]:
+    try:
+        result = load_hybrid_results()
+    except (FileNotFoundError, OSError, ValueError) as error:
+        raise HTTPException(status_code=503, detail=str(error)) from error
+    example = result["hindcast_example"]
+    if not isinstance(example, dict) or example["actual_endpoint"]["date"] != end_date:
+        raise HTTPException(status_code=404, detail="Verified hybrid hindcast date not found")
+    return {
+        "iceberg_id": "A76C",
+        "model_name": result["model_name"],
+        "evaluation_mode": result["evaluation_mode"],
+        "prediction_classification": result["prediction_classification"],
+        "selected_lambda": result["selected_lambda"],
+        **example,
+    }
