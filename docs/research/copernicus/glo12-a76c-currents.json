@@ -1,0 +1,20 @@
+{
+  "verified_at": "2026-08-31",
+  "product_id": "GLOBAL_ANALYSISFORECAST_PHY_001_024",
+  "dataset_id": "cmems_mod_glo_phy-cur_anfc_0.083deg_PT6H-i",
+  "dataset_version": "202406",
+  "dataset_name": "Instantaneous fields for product GLOBAL_ANALYSISFORECAST_PHY_001_024",
+  "classification": "ANALYSIS",
+  "source_type": "Numerical models",
+  "production_center": "Mercator Ocean International",
+  "processing_level": "Level 4",
+  "variables": {
+    "uo": {"standard_name": "eastward_sea_water_velocity", "units": "m s-1"},
+    "vo": {"standard_name": "northward_sea_water_velocity", "units": "m s-1"}
+  },
+  "grid": "regular longitude/latitude equirectangular, approximately 0.083333 degrees",
+  "temporal_resolution": "6 hours",
+  "catalogue_temporal_coverage_at_verification": ["2022-06-01T00:00:00Z", "2026-09-10T00:00:00Z"],
+  "selected_depth_metres": [0.49402499198913574, 29.444730758666992, 92.3260726928711],
+  "selection_note": "Exact provider levels; no iceberg draft or vertical interpolation assumed."
+}

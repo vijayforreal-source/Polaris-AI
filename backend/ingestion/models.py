@@ -6,6 +6,8 @@ from pydantic import BaseModel, ConfigDict
 
 class ScientificClassification(StrEnum):
     OBSERVATION = "OBSERVATION"
+    ANALYSIS = "ANALYSIS"
+    REANALYSIS = "REANALYSIS"
     FORECAST = "FORECAST"
     MODEL_PREDICTION = "MODEL_PREDICTION"
 
@@ -32,4 +34,3 @@ class ScientificMetadata(BaseModel):
     provenance: dict[str, str]
     local_file: str
     sha256: str
-
