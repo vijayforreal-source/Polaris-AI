@@ -1,10 +1,11 @@
 from datetime import UTC, datetime
+from pathlib import Path
 
 import numpy as np
 import pytest
 import xarray as xr
 
-from backend.environment.era5_wind import monthly_request
+from backend.environment.era5_wind import inspect_file, monthly_request, timestamp_coverage
 from backend.environment.models import EnvironmentalForcingSample
 from backend.environment.sampling import (
     interpolate_vector,
@@ -53,6 +54,23 @@ def test_explicit_spatial_and_temporal_interpolation() -> None:
     assert flags == []
 
 
+def test_descending_latitude_interpolation_preserves_data_alignment() -> None:
+    descending = generic_grid().sortby("latitude", ascending=False)
+    u_value, v_value, flags = interpolate_vector(
+        descending, 0.5, 10.5, datetime(2026, 1, 1, 3, tzinfo=UTC)
+    )
+    assert u_value == pytest.approx(4.0)
+    assert v_value == pytest.approx(8.0)
+    assert flags == []
+
+
+def test_exact_timestamp_uses_provider_value() -> None:
+    u_value, _, _ = interpolate_vector(
+        generic_grid(), 0.0, 10.0, datetime(2026, 1, 1, 0, tzinfo=UTC)
+    )
+    assert u_value == 0.0
+
+
 def test_outside_grid_is_flagged_without_extrapolation() -> None:
     u_value, v_value, flags = interpolate_vector(
         generic_grid(), 5.0, 10.5, datetime(2026, 1, 1, 3, tzinfo=UTC)
@@ -94,8 +112,41 @@ def test_era5_request_uses_verified_reanalysis_variables() -> None:
     assert request["product_type"] == ["reanalysis"]
 
 
-def test_real_local_interval_aggregation_is_complete() -> None:
+def test_timestamp_coverage_detects_duplicates_and_gaps() -> None:
+    times = np.array(
+        ["2026-01-01T00", "2026-01-01T01", "2026-01-01T01", "2026-01-01T03"],
+        dtype="datetime64[h]",
+    )
+    result = timestamp_coverage(
+        times, np.datetime64("2026-01-01T00"), np.datetime64("2026-01-01T04")
+    )
+    assert result["duplicate_count"] == 1
+    assert result["missing_count"] == 1
+
+
+def test_real_era5_metadata_and_descending_latitude() -> None:
+    metadata = inspect_file(
+        Path("data/raw/era5/wind/a76c/2026-01/era5_u10_v10_202601.nc")
+    )
+    assert metadata["time_coordinate"] == "valid_time"
+    assert metadata["latitude_orientation"] == "descending"
+    assert metadata["longitude_convention"] == "-180_to_180"
+    assert metadata["units"] == {"u10": "m s**-1", "v10": "m s**-1"}
+
+
+def test_real_local_interval_aggregation_preserves_provider_gap() -> None:
     summaries = build_interval_summaries()
     assert len(summaries) == 34
-    assert sum(item["valid_ocean_samples"] for item in summaries) == 982
-    assert all(item["coverage_percentage"] == 100 for item in summaries)
+    surface = [item["ocean_by_depth"]["0.494025"] for item in summaries]
+    assert sum(item["valid_samples"] for item in surface) == 982
+    assert all(item["coverage_percentage"] == 100 for item in surface)
+    assert summaries[-1]["wind"]["coverage_percentage"] < 100
+
+
+def test_combined_processed_forcing_schema() -> None:
+    with xr.open_dataset("data/processed/environment/a76c_forcing.nc") as dataset:
+        assert {"ocean_u", "ocean_v", "wind_u10", "wind_v10"}.issubset(
+            dataset.data_vars
+        )
+        assert dataset.attrs["wind_classification"] == "REANALYSIS"
+        assert int(dataset.wind_u10.notnull().sum()) == 102

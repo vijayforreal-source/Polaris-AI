@@ -19,7 +19,13 @@ def vector_direction(u_component: float, v_component: float) -> float:
 
 
 def interpolate_vector(
-    dataset: xr.Dataset, latitude: float, longitude: float, valid_at: datetime
+    dataset: xr.Dataset,
+    latitude: float,
+    longitude: float,
+    valid_at: datetime,
+    u_name: str = "uo",
+    v_name: str = "vo",
+    time_name: str = "time",
 ) -> tuple[float | None, float | None, list[str]]:
     flags: list[str] = []
     longitude = normalize_longitude(longitude)
@@ -29,9 +35,13 @@ def interpolate_vector(
     ):
         return None, None, ["OUTSIDE_SPATIAL_COVERAGE"]
     timestamp = np.datetime64(valid_at.replace(tzinfo=None))
-    if timestamp < dataset.time.min() or timestamp > dataset.time.max():
+    if timestamp < dataset[time_name].min() or timestamp > dataset[time_name].max():
         return None, None, ["OUTSIDE_TEMPORAL_COVERAGE"]
-    time_values = dataset.time.values
+    if dataset.latitude.values[0] > dataset.latitude.values[-1]:
+        dataset = dataset.sortby("latitude")
+    if dataset.longitude.values[0] > dataset.longitude.values[-1]:
+        dataset = dataset.sortby("longitude")
+    time_values = dataset[time_name].values
     latitudes = dataset.latitude.values
     longitudes = dataset.longitude.values
 
@@ -54,12 +64,19 @@ def interpolate_vector(
     lon_lower, lon_upper, lon_weight = bracket(longitudes, longitude)
 
     def interpolate(name: str) -> float:
-        values = dataset[name].isel(
-            depth=0,
-            time=[time_lower, time_upper],
-            latitude=[lat_lower, lat_upper],
-            longitude=[lon_lower, lon_upper],
-        ).values
+        indexers = {
+            time_name: [time_lower, time_upper],
+            "latitude": [lat_lower, lat_upper],
+            "longitude": [lon_lower, lon_upper],
+        }
+        if "depth" in dataset[name].dims:
+            indexers["depth"] = 0
+        values = (
+            dataset[name]
+            .isel(indexers)
+            .transpose(time_name, "latitude", "longitude")
+            .values
+        )
         temporal_values = []
         for time_index in (0, 1):
             corners = values[time_index].ravel()
@@ -72,8 +89,8 @@ def interpolate_vector(
             temporal_values[0] * (1 - time_weight) + temporal_values[1] * time_weight
         )
 
-    u_value = interpolate("uo")
-    v_value = interpolate("vo")
+    u_value = interpolate(u_name)
+    v_value = interpolate(v_name)
     if not math.isfinite(u_value) or not math.isfinite(v_value):
         flags.append("MISSING_SOURCE_VALUE")
         return None, None, flags
