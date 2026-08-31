@@ -58,3 +58,15 @@ def test_baseline_api_separates_prediction_from_observation() -> None:
     assert payload["prediction_classification"] == "MODEL_PREDICTION"
     assert all(item["classification"] == "MODEL_PREDICTION" for item in payload["predictions"])
     assert all("collision_probability" not in item for item in payload["predictions"])
+
+
+def test_a76c_physics_evaluation_is_hindcast_model_output() -> None:
+    response = client.get("/api/icebergs/A76C/physics-evaluation")
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["evaluation_mode"] == "HINDCAST"
+    assert payload["prediction_classification"] == "MODEL_PREDICTION"
+    assert payload["forcing"]["ocean_classification"] == "ANALYSIS"
+    assert payload["forcing"]["wind_classification"] == "REANALYSIS"
+    assert payload["models"]["P3_WDE17_SURFACE"]["n"] == 33
+    assert "forecast" not in payload["label"].lower()

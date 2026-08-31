@@ -7,6 +7,7 @@ from fastapi import APIRouter, HTTPException, Query
 from backend.iceberg.baseline import rolling_origin_validation
 from backend.iceberg.history import load_history, tracks_by_iceberg
 from backend.iceberg.motion import analyze_track
+from backend.iceberg.physics.results import A76C_PHYSICS_EVALUATION
 from backend.iceberg.usnic_registry import (
     PROVIDER,
     SOURCE_PAGE,
@@ -121,3 +122,9 @@ async def iceberg_baseline(iceberg_id: str) -> dict[str, Any]:
             constant_velocity.__dict__,
         ],
     }
+
+
+@router.get("/A76C/physics-evaluation")
+async def a76c_physics_evaluation() -> dict[str, Any]:
+    """Return the reproducible aggregate historical hindcast benchmark."""
+    return A76C_PHYSICS_EVALUATION
