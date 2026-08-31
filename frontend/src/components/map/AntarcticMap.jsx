@@ -45,5 +45,5 @@ export default function AntarcticMap({ metadata, grid, icebergs }) {
     map.getView().fit(transformExtent(sourceExtent, "EPSG:4326", ANTARCTIC_CRS), { padding: [70, 70, 70, 70], maxZoom: 8 });
     return () => map.setTarget(undefined);
   }, [metadata, grid, icebergs]);
-  return <><div ref={mapTarget} className="antarctic-map" aria-label="Verified Antarctic sea-ice and USNIC iceberg map" /><div className="projection-label">DISPLAY · EPSG:3031</div>{landWarning && <div className="land-warning">{landWarning}</div>}<IcebergPopup iceberg={selectedIceberg} onClose={() => setSelectedIceberg(null)} /></>;
+  return <><div ref={mapTarget} className="antarctic-map" aria-label="Verified Antarctic sea-ice and USNIC iceberg map" /><div className="projection-label">DISPLAY / EPSG:3031</div>{landWarning && <div className="land-warning">{landWarning}</div>}<IcebergPopup iceberg={selectedIceberg} onClose={() => setSelectedIceberg(null)} /></>;
 }
