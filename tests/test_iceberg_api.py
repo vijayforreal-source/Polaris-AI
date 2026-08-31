@@ -38,3 +38,23 @@ def test_all_registry_scope_is_explicit() -> None:
     assert response.status_code == 200
     assert len(response.json()["icebergs"]) == 33
 
+
+def test_historical_api_preserves_observation_classification() -> None:
+    response = client.get("/api/icebergs/A76C/history")
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["classification"] == "OBSERVATION"
+    assert payload["record_count"] == 35
+    assert payload["unique_position_count"] == 34
+    assert all(point["classification"] == "OBSERVATION" for point in payload["track_points"])
+
+
+def test_baseline_api_separates_prediction_from_observation() -> None:
+    response = client.get("/api/icebergs/A76C/baseline")
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["label"] == "TRAJECTORY BASELINE"
+    assert payload["historical_input_classification"] == "OBSERVATION"
+    assert payload["prediction_classification"] == "MODEL_PREDICTION"
+    assert all(item["classification"] == "MODEL_PREDICTION" for item in payload["predictions"])
+    assert all("collision_probability" not in item for item in payload["predictions"])
