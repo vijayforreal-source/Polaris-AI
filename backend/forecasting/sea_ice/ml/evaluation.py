@@ -91,11 +91,12 @@ def _mean_absolute_error_map(
 
 
 def evaluate_model(
-    model: PersistenceResidualCNN,
+    model: PersistenceResidualCNN | torch.nn.Module,
     dataset: SeaIceWindowDataset,
     cube: xr.Dataset,
     *,
     batch_size: int = 16,
+    model_name: str = "POLARIS Sea-Ice Residual CNN v0.1",
 ) -> dict[str, Any]:
     loader = DataLoader(dataset, batch_size=batch_size, shuffle=False, num_workers=0)
     predictions: list[np.ndarray] = []
@@ -136,7 +137,7 @@ def evaluate_model(
     )
     times = cube.time.values.astype("datetime64[D]")
     results: dict[str, Any] = {
-        "model_name": "POLARIS Sea-Ice Residual CNN v0.1",
+        "model_name": model_name,
         "mode": "HISTORICAL_FORECAST_BENCHMARK",
         "prediction_classification": "MODEL_PREDICTION",
         "target_classification": "OBSERVATION",

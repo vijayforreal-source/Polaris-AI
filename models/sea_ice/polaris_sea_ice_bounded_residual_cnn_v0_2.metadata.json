@@ -1,0 +1,139 @@
+{
+  "model_name": "POLARIS Sea-Ice Bounded Residual CNN v0.2",
+  "classification": "MODEL_PREDICTION",
+  "architecture": "bounded persistence-residual depthwise-separable CNN",
+  "parameter_count": 9699,
+  "forcing_status": "UNAVAILABLE_FOR_TRAINING",
+  "forcing_required_source": "ERA5 reanalysis-era5-single-levels",
+  "forcing_variables": [
+    "u10",
+    "v10",
+    "t2m"
+  ],
+  "forcing_normalization": "TRAIN_SPLIT_ONLY when verified forcing is present",
+  "context_days": 7,
+  "training_config": {
+    "context_days": 7,
+    "output_horizons_days": [
+      1,
+      2,
+      3
+    ],
+    "hidden_channels": 24,
+    "batch_size": 32,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "maximum_epochs": 30,
+    "early_stopping_patience": 5,
+    "random_seed": 26059,
+    "data_loader_workers": 0,
+    "source_cube": "data\\processed\\forecasting\\sea_ice_bharati_daily.nc",
+    "model_path": "models\\sea_ice\\polaris_sea_ice_bounded_residual_cnn_v0_2.pt",
+    "forcing_path": "data\\processed\\forecasting\\era5_bharati_daily_2015_2026.nc"
+  },
+  "best_epoch": 14,
+  "best_validation_mae_percent": 4.460992743305942,
+  "training_history": [
+    {
+      "epoch": 1.0,
+      "train_mae_percent": 4.902236586301871,
+      "validation_mae_percent": 4.691246721537435
+    },
+    {
+      "epoch": 2.0,
+      "train_mae_percent": 4.5126864487649705,
+      "validation_mae_percent": 4.629923420771379
+    },
+    {
+      "epoch": 3.0,
+      "train_mae_percent": 4.481138305718817,
+      "validation_mae_percent": 4.627585541328168
+    },
+    {
+      "epoch": 4.0,
+      "train_mae_percent": 4.461737579077765,
+      "validation_mae_percent": 4.596126964546701
+    },
+    {
+      "epoch": 5.0,
+      "train_mae_percent": 4.456593518347305,
+      "validation_mae_percent": 4.60470966082854
+    },
+    {
+      "epoch": 6.0,
+      "train_mae_percent": 4.449200257209133,
+      "validation_mae_percent": 4.595559530116235
+    },
+    {
+      "epoch": 7.0,
+      "train_mae_percent": 4.434480635396108,
+      "validation_mae_percent": 4.571685691419732
+    },
+    {
+      "epoch": 8.0,
+      "train_mae_percent": 4.420251022120222,
+      "validation_mae_percent": 4.539906521216792
+    },
+    {
+      "epoch": 9.0,
+      "train_mae_percent": 4.407571860169085,
+      "validation_mae_percent": 4.518322084612049
+    },
+    {
+      "epoch": 10.0,
+      "train_mae_percent": 4.387902128131215,
+      "validation_mae_percent": 4.506433280002896
+    },
+    {
+      "epoch": 11.0,
+      "train_mae_percent": 4.380305306216661,
+      "validation_mae_percent": 4.495939724424899
+    },
+    {
+      "epoch": 12.0,
+      "train_mae_percent": 4.366476743500634,
+      "validation_mae_percent": 4.471117943535387
+    },
+    {
+      "epoch": 13.0,
+      "train_mae_percent": 4.363900862196163,
+      "validation_mae_percent": 4.479257997937998
+    },
+    {
+      "epoch": 14.0,
+      "train_mae_percent": 4.350017157829905,
+      "validation_mae_percent": 4.460992743305942
+    },
+    {
+      "epoch": 15.0,
+      "train_mae_percent": 4.345796924402,
+      "validation_mae_percent": 4.477094231226186
+    },
+    {
+      "epoch": 16.0,
+      "train_mae_percent": 4.344746149521163,
+      "validation_mae_percent": 4.483785178862898
+    },
+    {
+      "epoch": 17.0,
+      "train_mae_percent": 4.330449070095207,
+      "validation_mae_percent": 4.4999313612057215
+    },
+    {
+      "epoch": 18.0,
+      "train_mae_percent": 4.32636387249879,
+      "validation_mae_percent": 4.46288329141017
+    },
+    {
+      "epoch": 19.0,
+      "train_mae_percent": 4.318327873804685,
+      "validation_mae_percent": 4.461459915420829
+    }
+  ],
+  "source_dataset_sha256": "5c14a6a05fc8c351edfb0eb3509b519be3339dc283a9e1b0dd82902ded6b0400",
+  "model_file_sha256": "204200244b195c9686cb2366d2628a06f219892eb2851a4fc903d2c95229dc19",
+  "torch_version": "2.13.0+cpu",
+  "cuda_available": false,
+  "cpu_count": 8,
+  "trained_at": "2026-09-01T20:27:33.255602+00:00"
+}

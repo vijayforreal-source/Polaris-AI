@@ -7,6 +7,8 @@ from torch.utils.data import Dataset
 
 from backend.forecasting.sea_ice.models import SeaIceSplit
 
+FORCING_VARIABLES = ("u10", "v10", "t2m")
+
 
 def temporal_window_indices(
     times: np.ndarray,
@@ -59,11 +61,22 @@ class SeaIceWindowDataset(Dataset):
         ocean_mask: np.ndarray,
         split: SeaIceSplit,
         context_days: int = 7,
+        forcing: np.ndarray | None = None,
+        forcing_mean: np.ndarray | None = None,
+        forcing_std: np.ndarray | None = None,
     ) -> None:
         self.concentration = np.asarray(concentration_percent, dtype="float32")
         self.times = times.astype("datetime64[D]")
         self.ocean_mask = np.asarray(ocean_mask, dtype=bool)
         self.context_days = context_days
+        self.forcing = None if forcing is None else np.asarray(forcing, dtype="float32")
+        self.forcing_mean = forcing_mean
+        self.forcing_std = forcing_std
+        if self.forcing is not None:
+            if self.forcing.shape != (len(times), len(FORCING_VARIABLES), *ocean_mask.shape):
+                raise ValueError("Atmospheric forcing shape does not match sea-ice grid/time")
+            if forcing_mean is None or forcing_std is None:
+                raise ValueError("Training-derived forcing normalization is required")
         self.initialization_indices = temporal_window_indices(
             self.times, split, context_days
         )
@@ -106,6 +119,18 @@ class SeaIceWindowDataset(Dataset):
                 season,
             ]
         ).astype("float32")
+        if self.forcing is not None:
+            forcing = self.forcing[initialization_index]
+            forcing_valid = np.isfinite(forcing)
+            normalized_forcing = np.where(
+                forcing_valid,
+                (forcing - self.forcing_mean[:, None, None])
+                / self.forcing_std[:, None, None],
+                0.0,
+            )
+            features = np.concatenate(
+                [features, normalized_forcing, forcing_valid.astype("float32")]
+            ).astype("float32")
         return {
             "features": torch.from_numpy(features),
             "targets": torch.from_numpy(normalized_targets.astype("float32")),
@@ -113,3 +138,21 @@ class SeaIceWindowDataset(Dataset):
             "current_valid": torch.from_numpy(context_valid[-1]),
             "initialization_index": torch.tensor(initialization_index, dtype=torch.int64),
         }
+
+
+def training_forcing_statistics(
+    forcing: np.ndarray, times: np.ndarray, training_split: SeaIceSplit
+) -> tuple[np.ndarray, np.ndarray]:
+    dates = times.astype("datetime64[D]")
+    selected = np.asarray(
+        [
+            training_split.start <= date.fromisoformat(str(value)) <= training_split.end
+            for value in dates
+        ]
+    )
+    training = np.asarray(forcing, dtype="float64")[selected]
+    mean = np.nanmean(training, axis=(0, 2, 3))
+    std = np.nanstd(training, axis=(0, 2, 3))
+    if not np.all(np.isfinite(mean)) or not np.all(np.isfinite(std)) or np.any(std <= 0):
+        raise ValueError("Invalid training-only forcing normalization statistics")
+    return mean.astype("float32"), std.astype("float32")

@@ -20,3 +20,15 @@ class SeaIceTrainingConfig(BaseModel):
     @property
     def input_channels(self) -> int:
         return self.context_days * 2 + 3
+
+
+class SeaIceV02TrainingConfig(SeaIceTrainingConfig):
+    hidden_channels: int = 24
+    maximum_epochs: int = 30
+    early_stopping_patience: int = 5
+    model_path: Path = Path(
+        "models/sea_ice/polaris_sea_ice_bounded_residual_cnn_v0_2.pt"
+    )
+    forcing_path: Path = Path(
+        "data/processed/forecasting/era5_bharati_daily_2015_2026.nc"
+    )
