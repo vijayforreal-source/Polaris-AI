@@ -1,0 +1,112 @@
+{
+  "model_name": "POLARIS Sea-Ice Residual CNN v0.1",
+  "classification": "MODEL_PREDICTION",
+  "evaluation_mode": "HISTORICAL_FORECAST_BENCHMARK",
+  "architecture": "persistence-residual depthwise-separable CNN",
+  "parameter_count": 5443,
+  "context_days": 7,
+  "input_features": [
+    "7 daily concentration channels",
+    "7 corresponding validity-mask channels",
+    "provider valid-ocean mask",
+    "day-of-year sine",
+    "day-of-year cosine"
+  ],
+  "targets": [
+    "+24H",
+    "+48H",
+    "+72H"
+  ],
+  "normalization": "concentration percent divided by 100; tensor-only NaN fill with explicit masks",
+  "training_period": [
+    "2015-01-01",
+    "2023-12-31"
+  ],
+  "validation_period": [
+    "2024-01-01",
+    "2024-12-31"
+  ],
+  "locked_test_period": [
+    "2025-01-01",
+    "2026-08-16"
+  ],
+  "training_config": {
+    "context_days": 7,
+    "output_horizons_days": [
+      1,
+      2,
+      3
+    ],
+    "hidden_channels": 16,
+    "batch_size": 32,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "maximum_epochs": 10,
+    "early_stopping_patience": 3,
+    "random_seed": 26059,
+    "data_loader_workers": 0,
+    "source_cube": "data\\processed\\forecasting\\sea_ice_bharati_daily.nc",
+    "model_path": "models\\sea_ice\\polaris_sea_ice_residual_cnn_v0_1.pt"
+  },
+  "best_epoch": 10,
+  "best_validation_mae_percent": 4.528777007273962,
+  "training_history": [
+    {
+      "epoch": 1.0,
+      "train_mae_percent": 5.455859898796046,
+      "validation_mae_percent": 4.846453045763124
+    },
+    {
+      "epoch": 2.0,
+      "train_mae_percent": 4.662281486111929,
+      "validation_mae_percent": 4.809421587533471
+    },
+    {
+      "epoch": 3.0,
+      "train_mae_percent": 4.638480350543413,
+      "validation_mae_percent": 4.7874250370894815
+    },
+    {
+      "epoch": 4.0,
+      "train_mae_percent": 4.620944338766019,
+      "validation_mae_percent": 4.766039909874499
+    },
+    {
+      "epoch": 5.0,
+      "train_mae_percent": 4.585603891511166,
+      "validation_mae_percent": 4.680749049819215
+    },
+    {
+      "epoch": 6.0,
+      "train_mae_percent": 4.520161988507423,
+      "validation_mae_percent": 4.619216467823694
+    },
+    {
+      "epoch": 7.0,
+      "train_mae_percent": 4.486370459886426,
+      "validation_mae_percent": 4.605584526832104
+    },
+    {
+      "epoch": 8.0,
+      "train_mae_percent": 4.464282010333543,
+      "validation_mae_percent": 4.575389340489841
+    },
+    {
+      "epoch": 9.0,
+      "train_mae_percent": 4.445677353310644,
+      "validation_mae_percent": 4.555481790010627
+    },
+    {
+      "epoch": 10.0,
+      "train_mae_percent": 4.416527678328482,
+      "validation_mae_percent": 4.528777007273962
+    }
+  ],
+  "source_dataset_sha256": "5c14a6a05fc8c351edfb0eb3509b519be3339dc283a9e1b0dd82902ded6b0400",
+  "model_file": "models/sea_ice/polaris_sea_ice_residual_cnn_v0_1.pt",
+  "model_file_sha256": "aa16f47643572dbc8f802f325aca7be1a8b7157de5733fa445f024de57c6c55d",
+  "torch_version": "2.13.0+cpu",
+  "cuda_available": false,
+  "cpu_count": 8,
+  "trained_at": "2026-09-01T16:51:14.599723+00:00"
+}
