@@ -1,0 +1,57 @@
+{
+  "verified_at": "2026-09-01",
+  "toolbox_version": "2.4.1",
+  "provider": "Copernicus Marine Service / EUMETSAT OSI SAF",
+  "product_id": "SEAICE_GLO_SEAICE_L4_REP_OBSERVATIONS_011_009",
+  "classification": "OBSERVATION",
+  "dataset_version": "202603",
+  "datasets": [
+    {
+      "family": "CDR",
+      "dataset_id": "osisaf_obs-si_glo_phy_sic-south_my_amsr_cdr_P1D-m",
+      "catalogue_coverage": ["2002-06-01", "2020-12-31"]
+    },
+    {
+      "family": "ICDR",
+      "dataset_id": "osisaf_obs-si_glo_phy_sic-south_my_amsr_icdr_P1D-m",
+      "catalogue_coverage": ["2021-01-01", "2026-08-16"]
+    }
+  ],
+  "variables_used": [
+    {
+      "id": "ice_conc",
+      "standard_name": "sea_ice_area_fraction",
+      "units": "%"
+    },
+    {
+      "id": "total_standard_uncertainty",
+      "standard_name": "sea_ice_area_fraction standard_error",
+      "units": "%"
+    },
+    {
+      "id": "status_flag",
+      "units": "1",
+      "land_bit": 1,
+      "lake_bit": 2
+    }
+  ],
+  "catalogue_grids": {
+    "original": {
+      "coordinates": ["xc", "yc"],
+      "spacing_km": 25
+    },
+    "copernicus_subset": {
+      "coordinates": ["longitude", "latitude"],
+      "spacing_degrees": 0.2,
+      "ice_regrid_method": "bilinear",
+      "status_flag_regrid_method": "nearest_s2d"
+    }
+  },
+  "targeted_download": {
+    "requested_bbox": [67.0, -73.5, 87.0, -63.0],
+    "actual_bbox": [67.2, -73.4, 87.0, -63.2],
+    "period": ["2015-01-01", "2026-08-16"],
+    "chunking": "yearly",
+    "raw_file_count": 12
+  }
+}

@@ -1,0 +1,544 @@
+{
+  "mode": "HISTORICAL_BASELINE_EVALUATION",
+  "target_classification": "OBSERVATION",
+  "forecast_classification": "MODEL_PREDICTION",
+  "units": "percentage points",
+  "ice_threshold_percent": 15.0,
+  "seasons": {
+    "cold_growth": "March through October",
+    "warm_melt": "November through February"
+  },
+  "bharati_neighborhood": {
+    "definition": "within 1 degree latitude/longitude of Bharati; provider-valid ocean cells only",
+    "valid_ocean_cells": 41
+  },
+  "splits": {
+    "TRAIN": {
+      "start": "2015-01-01",
+      "end": "2023-12-31"
+    },
+    "VALIDATION": {
+      "start": "2024-01-01",
+      "end": "2024-12-31"
+    },
+    "LOCKED_TEST": {
+      "start": "2025-01-01",
+      "end": "2026-08-16"
+    }
+  },
+  "sample_counts": {
+    "24H": {
+      "TRAIN": 3285,
+      "VALIDATION": 365,
+      "LOCKED_TEST": 592
+    },
+    "48H": {
+      "TRAIN": 3284,
+      "VALIDATION": 364,
+      "LOCKED_TEST": 591
+    },
+    "72H": {
+      "TRAIN": 3283,
+      "VALIDATION": 363,
+      "LOCKED_TEST": 590
+    }
+  },
+  "horizons": {
+    "24H": {
+      "PERSISTENCE": {
+        "regional": {
+          "valid_pixel_count": 1376992,
+          "mae_percentage_points": 3.072493932636505,
+          "rmse_percentage_points": 6.265645026221141,
+          "mean_bias_percentage_points": -0.11786873411272394,
+          "precision_15_percent": 0.9879321348259543,
+          "recall_15_percent": 0.986122089591067,
+          "f1_15_percent": 0.987026282377265
+        },
+        "bharati_local": {
+          "valid_pixel_count": 20128,
+          "mae_percentage_points": 2.6511979525372467,
+          "rmse_percentage_points": 5.732196306689059,
+          "mean_bias_percentage_points": -0.10852056989499585,
+          "precision_15_percent": 0.9929743884524493,
+          "recall_15_percent": 0.9918974097231084,
+          "f1_15_percent": 0.9924356069068972
+        },
+        "seasonal": {
+          "AUSTRAL_COLD_GROWTH_MAR_OCT": {
+            "valid_pixel_count": 962964,
+            "mae_percentage_points": 3.516264075128767,
+            "rmse_percentage_points": 6.498245159494036,
+            "mean_bias_percentage_points": -0.3507723041257071,
+            "precision_15_percent": 0.9941734830677266,
+            "recall_15_percent": 0.9891152437593724,
+            "f1_15_percent": 0.9916379130706029
+          },
+          "AUSTRAL_WARM_MELT_NOV_FEB": {
+            "valid_pixel_count": 414028,
+            "mae_percentage_points": 2.0403543877387724,
+            "rmse_percentage_points": 5.68798327874556,
+            "mean_bias_percentage_points": 0.4238283332208437,
+            "precision_15_percent": 0.94652801986175,
+            "recall_15_percent": 0.9657589506467368,
+            "f1_15_percent": 0.9560467872417168
+          }
+        }
+      },
+      "SEASONAL_CLIMATOLOGY": {
+        "regional": {
+          "valid_pixel_count": 1376992,
+          "mae_percentage_points": 10.724644693647933,
+          "rmse_percentage_points": 17.607753355548592,
+          "mean_bias_percentage_points": 2.7807545008064447,
+          "precision_15_percent": 0.8610878961975915,
+          "recall_15_percent": 0.9851026196042856,
+          "f1_15_percent": 0.9189300183197572
+        },
+        "bharati_local": {
+          "valid_pixel_count": 20128,
+          "mae_percentage_points": 8.874017334134649,
+          "rmse_percentage_points": 14.264519825667337,
+          "mean_bias_percentage_points": -0.382168914798535,
+          "precision_15_percent": 0.9465944748661785,
+          "recall_15_percent": 0.9815618221258134,
+          "f1_15_percent": 0.9637610799636671
+        },
+        "seasonal": {
+          "AUSTRAL_COLD_GROWTH_MAR_OCT": {
+            "valid_pixel_count": 962964,
+            "mae_percentage_points": 9.359774552806767,
+            "rmse_percentage_points": 15.017630444826999,
+            "mean_bias_percentage_points": 1.9085893241946332,
+            "precision_15_percent": 0.9221125661875945,
+            "recall_15_percent": 0.9948547338998439,
+            "f1_15_percent": 0.957103495316188
+          },
+          "AUSTRAL_WARM_MELT_NOV_FEB": {
+            "valid_pixel_count": 414028,
+            "mae_percentage_points": 13.899117942570648,
+            "rmse_percentage_points": 22.507230336726167,
+            "mean_bias_percentage_points": 4.809273507083355,
+            "precision_15_percent": 0.5788731470549653,
+            "recall_15_percent": 0.9187566690668078,
+            "f1_15_percent": 0.7102470299071499
+          }
+        }
+      },
+      "LINEAR_TENDENCY": {
+        "regional": {
+          "valid_pixel_count": 1376992,
+          "mae_percentage_points": 4.042563774629566,
+          "rmse_percentage_points": 8.044542819723308,
+          "mean_bias_percentage_points": -0.0013978761046837887,
+          "precision_15_percent": 0.9882021553625447,
+          "recall_15_percent": 0.9813104580722123,
+          "f1_15_percent": 0.9847442490409722
+        },
+        "bharati_local": {
+          "valid_pixel_count": 20128,
+          "mae_percentage_points": 3.5205599791468423,
+          "rmse_percentage_points": 7.374746313368477,
+          "mean_bias_percentage_points": -0.0028992986561218203,
+          "precision_15_percent": 0.9930181911350243,
+          "recall_15_percent": 0.9890902130917443,
+          "f1_15_percent": 0.9910503100428306
+        },
+        "seasonal": {
+          "AUSTRAL_COLD_GROWTH_MAR_OCT": {
+            "valid_pixel_count": 962964,
+            "mae_percentage_points": 4.7163824790079705,
+            "rmse_percentage_points": 8.534212063472951,
+            "mean_bias_percentage_points": -0.10247997998185363,
+            "precision_15_percent": 0.9936239628021681,
+            "recall_15_percent": 0.9864323094657594,
+            "f1_15_percent": 0.9900150759299596
+          },
+          "AUSTRAL_WARM_MELT_NOV_FEB": {
+            "valid_pixel_count": 414028,
+            "mae_percentage_points": 2.475367462198892,
+            "rmse_percentage_points": 6.77002442954396,
+            "mean_bias_percentage_points": 0.23370319695794717,
+            "precision_15_percent": 0.9513926434937301,
+            "recall_15_percent": 0.9464652861517641,
+            "f1_15_percent": 0.9489225684402792
+          }
+        }
+      },
+      "CLIMATOLOGY_ANOMALY": {
+        "regional": {
+          "valid_pixel_count": 1376992,
+          "mae_percentage_points": 3.467210970206104,
+          "rmse_percentage_points": 6.5011496540973255,
+          "mean_bias_percentage_points": 0.11731585668541081,
+          "precision_15_percent": 0.987562380123853,
+          "recall_15_percent": 0.9862844043326918,
+          "f1_15_percent": 0.986922978512746
+        },
+        "bharati_local": {
+          "valid_pixel_count": 20128,
+          "mae_percentage_points": 3.006554560771992,
+          "rmse_percentage_points": 5.840893866170117,
+          "mean_bias_percentage_points": 0.0441061391689187,
+          "precision_15_percent": 0.9930355887802697,
+          "recall_15_percent": 0.9915784101059079,
+          "f1_15_percent": 0.9923064644852354
+        },
+        "seasonal": {
+          "AUSTRAL_COLD_GROWTH_MAR_OCT": {
+            "valid_pixel_count": 962964,
+            "mae_percentage_points": 3.969906610043296,
+            "rmse_percentage_points": 6.7818644567247945,
+            "mean_bias_percentage_points": 0.03362409896964906,
+            "precision_15_percent": 0.9932122037055279,
+            "recall_15_percent": 0.9900218817264631,
+            "f1_15_percent": 0.9916144766663282
+          },
+          "AUSTRAL_WARM_MELT_NOV_FEB": {
+            "valid_pixel_count": 414028,
+            "mae_percentage_points": 2.2980199876634226,
+            "rmse_percentage_points": 5.795902620660474,
+            "mean_bias_percentage_points": 0.31196972013667684,
+            "precision_15_percent": 0.9496938932999502,
+            "recall_15_percent": 0.9608574576432928,
+            "f1_15_percent": 0.9552430604966861
+          }
+        }
+      },
+      "best_baseline": "PERSISTENCE"
+    },
+    "48H": {
+      "PERSISTENCE": {
+        "regional": {
+          "valid_pixel_count": 1374666,
+          "mae_percentage_points": 4.510957206791586,
+          "rmse_percentage_points": 9.029121243266465,
+          "mean_bias_percentage_points": -0.2361514167751264,
+          "precision_15_percent": 0.9816269126535789,
+          "recall_15_percent": 0.9780240930613407,
+          "f1_15_percent": 0.9798221909644298
+        },
+        "bharati_local": {
+          "valid_pixel_count": 20094,
+          "mae_percentage_points": 3.8663139379621025,
+          "rmse_percentage_points": 8.090367782543483,
+          "mean_bias_percentage_points": -0.22431350565317365,
+          "precision_15_percent": 0.9893106317608654,
+          "recall_15_percent": 0.9871622916267484,
+          "f1_15_percent": 0.9882352941176472
+        },
+        "seasonal": {
+          "AUSTRAL_COLD_GROWTH_MAR_OCT": {
+            "valid_pixel_count": 962964,
+            "mae_percentage_points": 5.074929755785372,
+            "rmse_percentage_points": 9.26454813885879,
+            "mean_bias_percentage_points": -0.706664896717155,
+            "precision_15_percent": 0.9921376902613255,
+            "recall_15_percent": 0.9820406622665184,
+            "f1_15_percent": 0.9870633554017396
+          },
+          "AUSTRAL_WARM_MELT_NOV_FEB": {
+            "valid_pixel_count": 411702,
+            "mae_percentage_points": 3.191834973551882,
+            "rmse_percentage_points": 8.45289579090927,
+            "mean_bias_percentage_points": 0.8643716380045336,
+            "precision_15_percent": 0.9132457213738538,
+            "recall_15_percent": 0.9505460953311466,
+            "f1_15_percent": 0.9315226590751712
+          }
+        }
+      },
+      "SEASONAL_CLIMATOLOGY": {
+        "regional": {
+          "valid_pixel_count": 1374666,
+          "mae_percentage_points": 10.721070572503184,
+          "rmse_percentage_points": 17.605480525033805,
+          "mean_bias_percentage_points": 2.7756214744748307,
+          "precision_15_percent": 0.8614516965386273,
+          "recall_15_percent": 0.9851220673573285,
+          "f1_15_percent": 0.9191456012373265
+        },
+        "bharati_local": {
+          "valid_pixel_count": 20094,
+          "mae_percentage_points": 8.868264698542328,
+          "rmse_percentage_points": 14.262159106373986,
+          "mean_bias_percentage_points": -0.38354176599909784,
+          "precision_15_percent": 0.9469468235874052,
+          "recall_15_percent": 0.9815418023887079,
+          "f1_15_percent": 0.9639340149281816
+        },
+        "seasonal": {
+          "AUSTRAL_COLD_GROWTH_MAR_OCT": {
+            "valid_pixel_count": 962964,
+            "mae_percentage_points": 9.359774552806767,
+            "rmse_percentage_points": 15.017630444826999,
+            "mean_bias_percentage_points": 1.9085893241946332,
+            "precision_15_percent": 0.9221125661875945,
+            "recall_15_percent": 0.9948547338998439,
+            "f1_15_percent": 0.957103495316188
+          },
+          "AUSTRAL_WARM_MELT_NOV_FEB": {
+            "valid_pixel_count": 411702,
+            "mae_percentage_points": 13.90511888975921,
+            "rmse_percentage_points": 22.525953819582718,
+            "mean_bias_percentage_points": 4.803594978520039,
+            "precision_15_percent": 0.579152617886,
+            "recall_15_percent": 0.9185393258426966,
+            "f1_15_percent": 0.7103923572809245
+          }
+        }
+      },
+      "LINEAR_TENDENCY": {
+        "regional": {
+          "valid_pixel_count": 1374666,
+          "mae_percentage_points": 6.7503037169531535,
+          "rmse_percentage_points": 13.031683081094894,
+          "mean_bias_percentage_points": -0.28720995821108714,
+          "precision_15_percent": 0.9817619927034391,
+          "recall_15_percent": 0.9652210384848161,
+          "f1_15_percent": 0.973421252227144
+        },
+        "bharati_local": {
+          "valid_pixel_count": 20094,
+          "mae_percentage_points": 5.845326433551133,
+          "rmse_percentage_points": 11.680337785565294,
+          "mean_bias_percentage_points": -0.30248734928375365,
+          "precision_15_percent": 0.9891122278056952,
+          "recall_15_percent": 0.9805837644504055,
+          "f1_15_percent": 0.9848295326982905
+        },
+        "seasonal": {
+          "AUSTRAL_COLD_GROWTH_MAR_OCT": {
+            "valid_pixel_count": 962964,
+            "mae_percentage_points": 7.825759844198421,
+            "rmse_percentage_points": 13.815282820319046,
+            "mean_bias_percentage_points": -0.645289983720995,
+            "precision_15_percent": 0.9909815177585041,
+            "recall_15_percent": 0.9734052862986728,
+            "f1_15_percent": 0.9821147708975678
+          },
+          "AUSTRAL_WARM_MELT_NOV_FEB": {
+            "valid_pixel_count": 411702,
+            "mae_percentage_points": 4.234830063396425,
+            "rmse_percentage_points": 10.982665120269555,
+            "mean_bias_percentage_points": 0.5503331523036126,
+            "precision_15_percent": 0.9191336631480551,
+            "recall_15_percent": 0.9092312792239514,
+            "f1_15_percent": 0.9141556556402914
+          }
+        }
+      },
+      "CLIMATOLOGY_ANOMALY": {
+        "regional": {
+          "valid_pixel_count": 1374666,
+          "mae_percentage_points": 5.014321832379539,
+          "rmse_percentage_points": 9.240441690312634,
+          "mean_bias_percentage_points": 0.17384789029494502,
+          "precision_15_percent": 0.9809363079618949,
+          "recall_15_percent": 0.9790264872369967,
+          "f1_15_percent": 0.9799804671187218
+        },
+        "bharati_local": {
+          "valid_pixel_count": 20094,
+          "mae_percentage_points": 4.3182470871324,
+          "rmse_percentage_points": 8.09279716006836,
+          "mean_bias_percentage_points": 0.06160782858975744,
+          "precision_15_percent": 0.9881043745203377,
+          "recall_15_percent": 0.9867790764514275,
+          "f1_15_percent": 0.9874412807976225
+        },
+        "seasonal": {
+          "AUSTRAL_COLD_GROWTH_MAR_OCT": {
+            "valid_pixel_count": 962964,
+            "mae_percentage_points": 5.67496290901491,
+            "rmse_percentage_points": 9.559595047480828,
+            "mean_bias_percentage_points": 0.021254504816532384,
+            "precision_15_percent": 0.9899725685177895,
+            "recall_15_percent": 0.9843486998480011,
+            "f1_15_percent": 0.9871526243672382
+          },
+          "AUSTRAL_WARM_MELT_NOV_FEB": {
+            "valid_pixel_count": 411702,
+            "mae_percentage_points": 3.469093551435792,
+            "rmse_percentage_points": 8.44699014433012,
+            "mean_bias_percentage_points": 0.5307612326003848,
+            "precision_15_percent": 0.9208859950399277,
+            "recall_15_percent": 0.9426163723916533,
+            "f1_15_percent": 0.9316244843060927
+          }
+        }
+      },
+      "best_baseline": "PERSISTENCE"
+    },
+    "72H": {
+      "PERSISTENCE": {
+        "regional": {
+          "valid_pixel_count": 1372340,
+          "mae_percentage_points": 5.4819188452943495,
+          "rmse_percentage_points": 10.843648459726234,
+          "mean_bias_percentage_points": -0.3563251132672616,
+          "precision_15_percent": 0.9771590225946893,
+          "recall_15_percent": 0.9717198637815428,
+          "f1_15_percent": 0.9744318530682782
+        },
+        "bharati_local": {
+          "valid_pixel_count": 20060,
+          "mae_percentage_points": 4.6989173228376115,
+          "rmse_percentage_points": 9.653916575180471,
+          "mean_bias_percentage_points": -0.3370102048551632,
+          "precision_15_percent": 0.9859516325614215,
+          "recall_15_percent": 0.9829251135128222,
+          "f1_15_percent": 0.984436046884007
+        },
+        "seasonal": {
+          "AUSTRAL_COLD_GROWTH_MAR_OCT": {
+            "valid_pixel_count": 962964,
+            "mae_percentage_points": 6.069961231774226,
+            "rmse_percentage_points": 11.009090046358788,
+            "mean_bias_percentage_points": -1.0696168209826278,
+            "precision_15_percent": 0.9913710264373204,
+            "recall_15_percent": 0.9761379517887929,
+            "f1_15_percent": 0.983695519480436
+          },
+          "AUSTRAL_WARM_MELT_NOV_FEB": {
+            "valid_pixel_count": 409376,
+            "mae_percentage_points": 4.098682777097368,
+            "rmse_percentage_points": 10.444157153282815,
+            "mean_bias_percentage_points": 1.3215315173813837,
+            "precision_15_percent": 0.8865372387424957,
+            "recall_15_percent": 0.9413399738704219,
+            "f1_15_percent": 0.9131170686898242
+          }
+        }
+      },
+      "SEASONAL_CLIMATOLOGY": {
+        "regional": {
+          "valid_pixel_count": 1372340,
+          "mae_percentage_points": 10.718640205836172,
+          "rmse_percentage_points": 17.604794392185426,
+          "mean_bias_percentage_points": 2.7686340053521064,
+          "precision_15_percent": 0.8618375046992389,
+          "recall_15_percent": 0.9851257371170804,
+          "f1_15_percent": 0.9193667614706302
+        },
+        "bharati_local": {
+          "valid_pixel_count": 20060,
+          "mae_percentage_points": 8.860508591875735,
+          "rmse_percentage_points": 14.255371137352896,
+          "mean_bias_percentage_points": -0.3763658654476333,
+          "precision_15_percent": 0.9471150879358223,
+          "recall_15_percent": 0.9815181940269873,
+          "f1_15_percent": 0.9640097983794989
+        },
+        "seasonal": {
+          "AUSTRAL_COLD_GROWTH_MAR_OCT": {
+            "valid_pixel_count": 962964,
+            "mae_percentage_points": 9.359774552806767,
+            "rmse_percentage_points": 15.017630444826999,
+            "mean_bias_percentage_points": 1.9085893241946332,
+            "precision_15_percent": 0.9221125661875945,
+            "recall_15_percent": 0.9948547338998439,
+            "f1_15_percent": 0.957103495316188
+          },
+          "AUSTRAL_WARM_MELT_NOV_FEB": {
+            "valid_pixel_count": 409376,
+            "mae_percentage_points": 13.915062821484884,
+            "rmse_percentage_points": 22.54904814173798,
+            "mean_bias_percentage_points": 4.791693653074801,
+            "precision_15_percent": 0.5795873412957572,
+            "recall_15_percent": 0.9182266960112936,
+            "f1_15_percent": 0.7106256934336289
+          }
+        }
+      },
+      "LINEAR_TENDENCY": {
+        "regional": {
+          "valid_pixel_count": 1372340,
+          "mae_percentage_points": 8.79140746168689,
+          "rmse_percentage_points": 16.65864765865318,
+          "mean_bias_percentage_points": -0.7662258291519304,
+          "precision_15_percent": 0.9772214183007134,
+          "recall_15_percent": 0.9502773686548371,
+          "f1_15_percent": 0.9635610712292134
+        },
+        "bharati_local": {
+          "valid_pixel_count": 20060,
+          "mae_percentage_points": 7.583442340981947,
+          "rmse_percentage_points": 14.522708376845124,
+          "mean_bias_percentage_points": -0.8363226776190495,
+          "precision_15_percent": 0.9867704280155642,
+          "recall_15_percent": 0.973076677111978,
+          "f1_15_percent": 0.9798757123997811
+        },
+        "seasonal": {
+          "AUSTRAL_COLD_GROWTH_MAR_OCT": {
+            "valid_pixel_count": 962964,
+            "mae_percentage_points": 10.099195635380223,
+            "rmse_percentage_points": 17.57220286970457,
+            "mean_bias_percentage_points": -1.4765741947369322,
+            "precision_15_percent": 0.9896244293107572,
+            "recall_15_percent": 0.960229069542065,
+            "f1_15_percent": 0.9747051719652225
+          },
+          "AUSTRAL_WARM_MELT_NOV_FEB": {
+            "valid_pixel_count": 409376,
+            "mae_percentage_points": 5.715133007658256,
+            "rmse_percentage_points": 14.281134607968474,
+            "mean_bias_percentage_points": 0.9047072580764259,
+            "precision_15_percent": 0.8933856840833585,
+            "recall_15_percent": 0.881846957833174,
+            "f1_15_percent": 0.8875788210271776
+          }
+        }
+      },
+      "CLIMATOLOGY_ANOMALY": {
+        "regional": {
+          "valid_pixel_count": 1372340,
+          "mae_percentage_points": 5.998224535796769,
+          "rmse_percentage_points": 10.911005118052005,
+          "mean_bias_percentage_points": 0.2234049685561766,
+          "precision_15_percent": 0.9744768704990707,
+          "recall_15_percent": 0.9742013196580511,
+          "f1_15_percent": 0.9743390755965688
+        },
+        "bharati_local": {
+          "valid_pixel_count": 20060,
+          "mae_percentage_points": 5.171651883811072,
+          "rmse_percentage_points": 9.481444870353238,
+          "mean_bias_percentage_points": 0.1035728560314789,
+          "precision_15_percent": 0.9809262566981373,
+          "recall_15_percent": 0.9833727697128605,
+          "f1_15_percent": 0.9821479896528597
+        },
+        "seasonal": {
+          "AUSTRAL_COLD_GROWTH_MAR_OCT": {
+            "valid_pixel_count": 962964,
+            "mae_percentage_points": 6.711727989894177,
+            "rmse_percentage_points": 11.176390374852929,
+            "mean_bias_percentage_points": 0.0060014114593088435,
+            "precision_15_percent": 0.9860463505839989,
+            "recall_15_percent": 0.9804887939037205,
+            "f1_15_percent": 0.9832597192348909
+          },
+          "AUSTRAL_WARM_MELT_NOV_FEB": {
+            "valid_pixel_count": 409376,
+            "mae_percentage_points": 4.319869819908549,
+            "rmse_percentage_points": 10.259716773246957,
+            "mean_bias_percentage_points": 0.7347974267272176,
+            "precision_15_percent": 0.8981584089736323,
+            "recall_15_percent": 0.9309670574412303,
+            "f1_15_percent": 0.9142684922070093
+          }
+        }
+      },
+      "best_baseline": "PERSISTENCE"
+    }
+  },
+  "best_overall_baseline": "PERSISTENCE",
+  "mean_mae_across_horizons": {
+    "PERSISTENCE": 4.355123328240814,
+    "SEASONAL_CLIMATOLOGY": 10.721451823995764,
+    "LINEAR_TENDENCY": 6.528091651089869,
+    "CLIMATOLOGY_ANOMALY": 4.826585779460804
+  }
+}
