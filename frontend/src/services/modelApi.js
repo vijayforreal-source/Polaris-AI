@@ -17,3 +17,14 @@ export async function fetchModelEvaluations(signal) {
 export async function fetchHybridHindcast(signal) {
   return getJson("/api/icebergs/A76C/hybrid-hindcast/2026-08-27", signal);
 }
+
+export async function requestTrajectoryHindcast(request, signal) {
+  const response = await fetch(`${API_BASE_URL}/api/trajectory/hindcast`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(request),
+    signal,
+  });
+  if (!response.ok) throw new Error(`Trajectory engine returned HTTP ${response.status}.`);
+  return response.json();
+}
