@@ -1,0 +1,17 @@
+import { useEffect, useState } from "react";
+import { fetchIcebergHistory } from "../services/icebergApi.js";
+
+export default function IceIntelligence({ registry, registryError }) {
+  const [history, setHistory] = useState(null);
+  const [historyError, setHistoryError] = useState("");
+  const [selected, setSelected] = useState(null);
+  useEffect(() => {
+    const controller = new AbortController();
+    fetchIcebergHistory("A76C", controller.signal).then(setHistory).catch((error) => {
+      if (error.name !== "AbortError") setHistoryError(error.message);
+    });
+    return () => controller.abort();
+  }, []);
+  const points = history?.track_points ?? [];
+  return <><section className="mission-workspace module-workspace"><div className="workspace-header"><div><span className="workspace-kicker">VERIFIED USNIC OBSERVATIONS</span><h2>Ice Intelligence</h2></div><span className="data-chip active">OBSERVATION</span></div><div className="module-scroll"><section className="module-panel"><div className="section-heading"><div><span className="panel-kicker">ACTIVE STUDY REGION</span><h3>Bharati / Prydz Bay Registry</h3></div><strong>{registry?.metadata?.study_region_count ?? "-"} / {registry?.metadata?.total_registry_count ?? "-"}</strong></div>{registry ? <div className="data-table-wrap"><table className="data-table"><thead><tr><th>ID</th><th>Latitude</th><th>Longitude</th><th>Length NM</th><th>Width NM</th><th>Area sqNM</th><th>Last update</th></tr></thead><tbody>{registry.icebergs.map((item) => <tr key={item.iceberg_id} className={selected?.iceberg_id === item.iceberg_id ? "selected" : ""} onClick={() => setSelected(item)}><td>{item.iceberg_id}</td><td>{item.latitude.toFixed(4)}</td><td>{item.longitude.toFixed(4)}</td><td>{item.length_nm ?? "-"}</td><td>{item.width_nm ?? "-"}</td><td>{item.area_sq_nm ?? "-"}</td><td>{item.last_updated_on}</td></tr>)}</tbody></table></div> : <p className="panel-error">{registryError || "Loading verified USNIC registry..."}</p>}</section><section className="module-panel"><span className="panel-kicker">HISTORICAL RESEARCH CANDIDATE / NOT A BHARATI THREAT</span><h3>A76C Historical Track</h3>{history ? <div className="metric-grid"><div><span>OBSERVATIONS</span><strong>{history.distinct_dated_positions}</strong></div><div><span>UNIQUE POSITIONS</span><strong>{history.unique_position_count}</strong></div><div><span>DATE SPAN</span><strong>{points[0]?.observation_date} / {points.at(-1)?.observation_date}</strong></div><div><span>CLASSIFICATION</span><strong>{history.classification}</strong></div></div> : <p className="panel-error">{historyError || "Loading verified A76C history..."}</p>}</section></div></section><aside className="intelligence-rail"><section className="rail-section"><span className="panel-kicker">SELECTED OBSERVATION</span>{selected ? <><h3>{selected.iceberg_id}</h3><dl className="observation-facts"><div><dt>Position</dt><dd>{selected.latitude}, {selected.longitude}</dd></div><div><dt>Dimensions</dt><dd>{selected.length_nm ?? "-"} x {selected.width_nm ?? "-"} NM</dd></div><div><dt>Source</dt><dd>U.S. National Ice Center</dd></div><div><dt>Classification</dt><dd>OBSERVATION</dd></div></dl></> : <p className="processing-note">Select a current regional registry row.</p>}</section><section className="rail-section"><span className="panel-kicker">PROVIDER LIMITATION</span><p className="processing-note">USNIC tracks qualifying named/large icebergs. Absence from this registry does not mean smaller iceberg hazards are absent.</p></section></aside></>;
+}

@@ -13,3 +13,7 @@ export async function fetchLatestIcebergs(signal) {
   ]);
   return { metadata, icebergs: registry.icebergs };
 }
+
+export async function fetchIcebergHistory(icebergId, signal) {
+  return getJson(`/api/icebergs/${icebergId}/history`, signal);
+}

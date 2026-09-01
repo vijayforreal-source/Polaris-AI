@@ -22,3 +22,15 @@ def test_root() -> None:
         "phase": "Day 1 - Foundation",
     }
 
+
+def test_development_cors_allows_both_local_vite_origins() -> None:
+    for origin in ("http://localhost:5173", "http://127.0.0.1:5173"):
+        response = client.options(
+            "/health",
+            headers={
+                "Origin": origin,
+                "Access-Control-Request-Method": "GET",
+            },
+        )
+        assert response.status_code == 200
+        assert response.headers["access-control-allow-origin"] == origin
