@@ -106,8 +106,26 @@ class SeaIceWindowDataset(Dataset):
         ]
         context_valid = np.isfinite(context) & self.ocean_mask[None, :, :]
         target_valid = np.isfinite(targets) & self.ocean_mask[None, :, :]
-        normalized_context = np.where(context_valid, context / 100.0, 0.0)
         normalized_targets = np.where(target_valid, targets / 100.0, 0.0)
+        features = self.features_at(initialization_index)
+        return {
+            "features": torch.from_numpy(features),
+            "targets": torch.from_numpy(normalized_targets.astype("float32")),
+            "target_mask": torch.from_numpy(target_valid),
+            "current_valid": torch.from_numpy(context_valid[-1]),
+            "initialization_index": torch.tensor(initialization_index, dtype=torch.int64),
+        }
+
+    def features_at(self, initialization_index: int) -> np.ndarray:
+        """Identical training/inference features; never reads observed targets."""
+        start = initialization_index - self.context_days + 1
+        if start < 0 or not np.all(
+            np.diff(self.times[start:initialization_index + 1]) == np.timedelta64(1, "D")
+        ):
+            raise ValueError("A contiguous observation context is required")
+        context = self.concentration[start:initialization_index + 1]
+        context_valid = np.isfinite(context) & self.ocean_mask[None, :, :]
+        normalized_context = np.where(context_valid, context / 100.0, 0.0)
         season = seasonal_channels(
             self.times[initialization_index], self.ocean_mask.shape
         )
@@ -131,13 +149,7 @@ class SeaIceWindowDataset(Dataset):
             features = np.concatenate(
                 [features, normalized_forcing, forcing_valid.astype("float32")]
             ).astype("float32")
-        return {
-            "features": torch.from_numpy(features),
-            "targets": torch.from_numpy(normalized_targets.astype("float32")),
-            "target_mask": torch.from_numpy(target_valid),
-            "current_valid": torch.from_numpy(context_valid[-1]),
-            "initialization_index": torch.tensor(initialization_index, dtype=torch.int64),
-        }
+        return features
 
 
 def training_forcing_statistics(

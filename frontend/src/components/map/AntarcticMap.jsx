@@ -12,7 +12,9 @@ import { createSeaIceLayer } from "./SeaIceLayer.jsx";
 import { createIcebergLayer } from "./IcebergLayer.jsx";
 import IcebergPopup from "./IcebergPopup.jsx";
 
-export default function AntarcticMap({ metadata, grid, icebergs }) {
+const NO_ICEBERGS = [];
+
+export default function AntarcticMap({ metadata, grid, icebergs = NO_ICEBERGS }) {
   const mapTarget = useRef(null);
   const [landWarning, setLandWarning] = useState("");
   const [selectedIceberg, setSelectedIceberg] = useState(null);

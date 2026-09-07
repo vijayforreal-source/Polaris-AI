@@ -1,4 +1,5 @@
 import json
+from datetime import date as Date
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
@@ -7,6 +8,7 @@ import numpy as np
 import xarray as xr
 from fastapi import APIRouter, HTTPException
 
+from backend.forecasting.sea_ice import operational
 from backend.ingestion.config import BHARATI_PRYDZ_BAY
 from backend.ingestion.copernicus_sea_ice import SIC_VARIABLE, inspect_netcdf
 
@@ -22,12 +24,22 @@ def latest_observation_file(raw_root: Path = RAW_ROOT) -> Path:
     return candidates[-1]
 
 
-@lru_cache(maxsize=1)
 def load_latest_observation() -> tuple[dict[str, Any], dict[str, Any]]:
     path = latest_observation_file()
     sidecar = path.with_suffix(path.suffix + ".metadata.json")
     if not sidecar.exists():
         raise FileNotFoundError(f"Observation sidecar is missing: {sidecar}")
+    return _load_observation(path, path.stat().st_mtime_ns, sidecar.stat().st_mtime_ns)
+
+
+@lru_cache(maxsize=2)
+def _load_observation(path: Path, modified: int, sidecar_modified: int):
+    with operational.NETCDF_LOCK:
+        return _read_observation(path)
+
+
+def _read_observation(path: Path) -> tuple[dict[str, Any], dict[str, Any]]:
+    sidecar = path.with_suffix(path.suffix + ".metadata.json")
 
     registration = json.loads(sidecar.read_text(encoding="utf-8"))
     inspection = inspect_netcdf(path)
@@ -104,3 +116,25 @@ async def latest_metadata() -> dict[str, Any]:
 async def latest_grid() -> dict[str, Any]:
     return _observation_or_503(1)
 
+
+@router.get("/forecast/status")
+def forecast_status() -> dict:
+    return operational.status()
+
+
+@router.get("/forecast/latest")
+def forecast_latest() -> dict:
+    return operational.forecast()
+
+
+@router.get("/forecast/historical")
+def forecast_historical(date: Date) -> dict:
+    try:
+        return operational.forecast(date)
+    except ValueError as error:
+        raise HTTPException(status_code=422, detail=str(error)) from error
+
+
+@router.get("/forecast/results")
+def forecast_results() -> dict:
+    return operational.results()

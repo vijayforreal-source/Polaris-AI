@@ -36,5 +36,5 @@ async def root() -> dict[str, str]:
     return {
         "system": settings.app_name,
         "status": "operational",
-        "phase": "Day 1 - Foundation",
+        "phase": "Checkpoint 3 - Sea-ice prediction engine; historical champion v0.3",
     }

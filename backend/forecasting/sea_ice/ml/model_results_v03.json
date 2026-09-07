@@ -1,0 +1,314 @@
+{
+  "model_name": "POLARIS Sea-Ice Multimodal Bounded Residual CNN v0.3",
+  "mode": "HISTORICAL_FORECAST_BENCHMARK",
+  "prediction_classification": "MODEL_PREDICTION",
+  "target_classification": "OBSERVATION",
+  "test_sample_count": 584,
+  "clipping": {
+    "clipped_valid_values": 0,
+    "evaluated_valid_values": 4075152,
+    "fraction": 0.0
+  },
+  "horizons": {
+    "24H": {
+      "sample_count": 584,
+      "ai": {
+        "valid_pixel_count": 1358384,
+        "mae_percentage_points": 2.8779149296126323,
+        "rmse_percentage_points": 5.876555913080769,
+        "mean_bias_percentage_points": 0.4335278971680034,
+        "precision_15_percent": 0.9884616550078617,
+        "recall_15_percent": 0.9877721216036319,
+        "f1_15_percent": 0.9881167680122064
+      },
+      "persistence": {
+        "valid_pixel_count": 1358384,
+        "mae_percentage_points": 3.081866153041831,
+        "rmse_percentage_points": 6.275852835218106,
+        "mean_bias_percentage_points": -0.12902269239849584,
+        "precision_15_percent": 0.9882731367841826,
+        "recall_15_percent": 0.9861683551075476,
+        "f1_15_percent": 0.9872196240828157
+      },
+      "skill_vs_persistence_mae": 0.06617783500271279,
+      "fraction_days_ai_beats_persistence": 0.7037671232876712,
+      "mean_paired_improvement_pp": 0.2039512305533233,
+      "bootstrap": {
+        "mean_ai_minus_persistence_mae_pp": -0.2039512305533233,
+        "ci_95_lower_pp": -0.2405475670344209,
+        "ci_95_upper_pp": -0.16797568361364204,
+        "resamples": 10000,
+        "seed": 26059
+      },
+      "seasonal": {
+        "AUSTRAL_COLD_GROWTH_MAR_OCT": {
+          "ai_mae_pp": 3.276087109759016,
+          "persistence_mae_pp": 3.518643144554305,
+          "sample_count": 412,
+          "v02_mae_pp": 3.368521049908064
+        },
+        "AUSTRAL_WARM_MELT_NOV_FEB": {
+          "ai_mae_pp": 1.9241536765597587,
+          "persistence_mae_pp": 2.035632934161397,
+          "sample_count": 172,
+          "v02_mae_pp": 1.999230452228424
+        }
+      },
+      "bharati_local": {
+        "ai": {
+          "valid_pixel_count": 19856,
+          "mae_percentage_points": 2.5462671282561797,
+          "rmse_percentage_points": 5.443398058632105,
+          "mean_bias_percentage_points": 0.05663550574691571,
+          "precision_15_percent": 0.9943776657619232,
+          "recall_15_percent": 0.990983448187029,
+          "f1_15_percent": 0.992677655559498
+        },
+        "persistence": {
+          "valid_pixel_count": 19856,
+          "mae_percentage_points": 2.618232905766499,
+          "rmse_percentage_points": 5.611507346209465,
+          "mean_bias_percentage_points": -0.15995636173551353,
+          "precision_15_percent": 0.9939343098664257,
+          "recall_15_percent": 0.9920139112513686,
+          "f1_15_percent": 0.9929731820526044
+        },
+        "skill_vs_persistence_mae": 0.02748639257868124,
+        "v02": {
+          "valid_pixel_count": 19856,
+          "mae_percentage_points": 2.5756125481579546,
+          "rmse_percentage_points": 5.46901684925145,
+          "mean_bias_percentage_points": 0.36116162728918616,
+          "precision_15_percent": 0.9941886743720539,
+          "recall_15_percent": 0.9916274876022413,
+          "f1_15_percent": 0.9929064293544851
+        }
+      }
+    },
+    "48H": {
+      "sample_count": 584,
+      "ai": {
+        "valid_pixel_count": 1358384,
+        "mae_percentage_points": 4.0666596431003255,
+        "rmse_percentage_points": 8.16419372769205,
+        "mean_bias_percentage_points": 0.731748252285046,
+        "precision_15_percent": 0.9824160176780143,
+        "recall_15_percent": 0.9820730172052036,
+        "f1_15_percent": 0.9822444874976076
+      },
+      "persistence": {
+        "valid_pixel_count": 1358384,
+        "mae_percentage_points": 4.517297915032069,
+        "rmse_percentage_points": 9.025720684379877,
+        "mean_bias_percentage_points": -0.26125036708254434,
+        "precision_15_percent": 0.9823793596417878,
+        "recall_15_percent": 0.9781216953420059,
+        "f1_15_percent": 0.9802459042591666
+      },
+      "skill_vs_persistence_mae": 0.09975837228739115,
+      "fraction_days_ai_beats_persistence": 0.7465753424657534,
+      "mean_paired_improvement_pp": 0.45063828712660975,
+      "bootstrap": {
+        "mean_ai_minus_persistence_mae_pp": -0.45063828712660975,
+        "ci_95_lower_pp": -0.5219822175698738,
+        "ci_95_upper_pp": -0.38039971476880047,
+        "resamples": 10000,
+        "seed": 26059
+      },
+      "seasonal": {
+        "AUSTRAL_COLD_GROWTH_MAR_OCT": {
+          "ai_mae_pp": 4.537517393183766,
+          "persistence_mae_pp": 5.075912277577287,
+          "sample_count": 413,
+          "v02_mae_pp": 4.641248867529068
+        },
+        "AUSTRAL_WARM_MELT_NOV_FEB": {
+          "ai_mae_pp": 2.9294417498753087,
+          "persistence_mae_pp": 3.1681298927256933,
+          "sample_count": 171,
+          "v02_mae_pp": 3.0572182618037997
+        }
+      },
+      "bharati_local": {
+        "ai": {
+          "valid_pixel_count": 19856,
+          "mae_percentage_points": 3.5857846579857497,
+          "rmse_percentage_points": 7.400319521172722,
+          "mean_bias_percentage_points": 0.021392600362871658,
+          "precision_15_percent": 0.9925628920649292,
+          "recall_15_percent": 0.9865655332004886,
+          "f1_15_percent": 0.9895551257253385
+        },
+        "persistence": {
+          "valid_pixel_count": 19856,
+          "mae_percentage_points": 3.7919642847474315,
+          "rmse_percentage_points": 7.860644072305877,
+          "mean_bias_percentage_points": -0.31763872295183915,
+          "precision_15_percent": 0.9912886365102923,
+          "recall_15_percent": 0.9874654496368195,
+          "f1_15_percent": 0.9893733496489986
+        },
+        "skill_vs_persistence_mae": 0.054372776555677516,
+        "v02": {
+          "valid_pixel_count": 19856,
+          "mae_percentage_points": 3.673622200925276,
+          "rmse_percentage_points": 7.454744200403088,
+          "mean_bias_percentage_points": 0.08678632312689553,
+          "precision_15_percent": 0.9923086866597725,
+          "recall_15_percent": 0.9868869319277496,
+          "f1_15_percent": 0.9895903831899191
+        }
+      }
+    },
+    "72H": {
+      "sample_count": 584,
+      "ai": {
+        "valid_pixel_count": 1358384,
+        "mae_percentage_points": 4.788987137609075,
+        "rmse_percentage_points": 9.525931141063335,
+        "mean_bias_percentage_points": 0.7285476921392436,
+        "precision_15_percent": 0.9790988964047329,
+        "recall_15_percent": 0.9776339634144299,
+        "f1_15_percent": 0.9783658815392059
+      },
+      "persistence": {
+        "valid_pixel_count": 1358384,
+        "mae_percentage_points": 5.485349782062892,
+        "rmse_percentage_points": 10.8292710968262,
+        "mean_bias_percentage_points": -0.39372169737832363,
+        "precision_15_percent": 0.9782737212166985,
+        "recall_15_percent": 0.9718869717362346,
+        "f1_15_percent": 0.9750698882180591
+      },
+      "skill_vs_persistence_mae": 0.1269495463593232,
+      "fraction_days_ai_beats_persistence": 0.7671232876712328,
+      "mean_paired_improvement_pp": 0.696362667602219,
+      "bootstrap": {
+        "mean_ai_minus_persistence_mae_pp": -0.696362667602219,
+        "ci_95_lower_pp": -0.7903866050382182,
+        "ci_95_upper_pp": -0.6063388650267296,
+        "resamples": 10000,
+        "seed": 26059
+      },
+      "seasonal": {
+        "AUSTRAL_COLD_GROWTH_MAR_OCT": {
+          "ai_mae_pp": 5.2451747261383685,
+          "persistence_mae_pp": 6.06996123255163,
+          "sample_count": 414,
+          "v02_mae_pp": 5.355773649065966
+        },
+        "AUSTRAL_WARM_MELT_NOV_FEB": {
+          "ai_mae_pp": 3.678036138240029,
+          "persistence_mae_pp": 4.061648986620061,
+          "sample_count": 170,
+          "v02_mae_pp": 3.847205634678111
+        }
+      },
+      "bharati_local": {
+        "ai": {
+          "valid_pixel_count": 19856,
+          "mae_percentage_points": 4.311640944876391,
+          "rmse_percentage_points": 8.697206203914861,
+          "mean_bias_percentage_points": -0.19630453363506536,
+          "precision_15_percent": 0.9905513849339891,
+          "recall_15_percent": 0.9819721562840829,
+          "f1_15_percent": 0.9862431135023679
+        },
+        "persistence": {
+          "valid_pixel_count": 19856,
+          "mae_percentage_points": 4.59563294281021,
+          "rmse_percentage_points": 9.341741087803024,
+          "mean_bias_percentage_points": -0.47337974381145675,
+          "precision_15_percent": 0.988901077627928,
+          "recall_15_percent": 0.9831911208057997,
+          "f1_15_percent": 0.9860378329687299
+        },
+        "skill_vs_persistence_mae": 0.06179605757638218,
+        "v02": {
+          "valid_pixel_count": 19856,
+          "mae_percentage_points": 4.405332659666128,
+          "rmse_percentage_points": 8.74428986037583,
+          "mean_bias_percentage_points": -0.1645038519292923,
+          "precision_15_percent": 0.9903609781342994,
+          "recall_15_percent": 0.9821646243664592,
+          "f1_15_percent": 0.9862457722660654
+        }
+      }
+    }
+  },
+  "comparison_v02": {
+    "24H": {
+      "v03_mae_pp": 2.8779149342277277,
+      "v02_mae_pp": 2.9652368327832384,
+      "improvement_pp": 0.08732189855551065,
+      "relative_improvement": 0.02944854103729322,
+      "fraction_days_v03_beats_v02": 0.684931506849315,
+      "bootstrap_v03_minus_v02": {
+        "mean_v03_minus_v02_mae_pp": -0.08732189855551066,
+        "ci_95_lower_pp": -0.10566634905894529,
+        "ci_95_upper_pp": -0.06900096788798293,
+        "resamples": 10000,
+        "seed": 26059
+      },
+      "bootstrap_ci_excludes_zero": true
+    },
+    "48H": {
+      "v03_mae_pp": 4.066659627762967,
+      "v02_mae_pp": 4.177431686743073,
+      "improvement_pp": 0.110772058980106,
+      "relative_improvement": 0.026516785261058162,
+      "fraction_days_v03_beats_v02": 0.6832191780821918,
+      "bootstrap_v03_minus_v02": {
+        "mean_v03_minus_v02_mae_pp": -0.11077205898010567,
+        "ci_95_lower_pp": -0.1352169547587225,
+        "ci_95_upper_pp": -0.08632162337586896,
+        "resamples": 10000,
+        "seed": 26059
+      },
+      "bootstrap_ci_excludes_zero": true
+    },
+    "72H": {
+      "v03_mae_pp": 4.788987123496728,
+      "v02_mae_pp": 4.916635699672241,
+      "improvement_pp": 0.12764857617551328,
+      "relative_improvement": 0.025962585795002657,
+      "fraction_days_v03_beats_v02": 0.672945205479452,
+      "bootstrap_v03_minus_v02": {
+        "mean_v03_minus_v02_mae_pp": -0.12764857617551334,
+        "ci_95_lower_pp": -0.1598926854613301,
+        "ci_95_upper_pp": -0.09579662346880731,
+        "resamples": 10000,
+        "seed": 26059
+      },
+      "bootstrap_ci_excludes_zero": true
+    }
+  },
+  "summary": {
+    "v03_mean_mae_pp": 3.9111872367740106,
+    "v02_mean_mae_pp": 4.019768072158162,
+    "relative_mean_improvement": 0.027011716456033175,
+    "long_horizon_requirement_passed": true,
+    "decision": "ADOPT_V03"
+  },
+  "provenance": {
+    "source_dataset_sha256": "5c14a6a05fc8c351edfb0eb3509b519be3339dc283a9e1b0dd82902ded6b0400",
+    "forcing_dataset_sha256": "ba09622e086ce522534ea640d9e59fe75f2b3874be4cd63063e7fdf9a72a5659",
+    "model_file_sha256": "aba2c90463130dae416658715f64a07a7643b89f4514045dedc8744d479e0cc7",
+    "normalization_period": {
+      "start": "2015-01-01",
+      "end": "2023-12-31"
+    },
+    "forcing_time_semantics": "00:00 UTC initialization-state only"
+  },
+  "verification": {
+    "existing_locked_results_preserved": true,
+    "initialization_dates_exactly_matched_by_evaluator": true,
+    "frozen_v02_max_mae_disagreement_pp": 3.379967417060925e-09,
+    "physical_outputs_valid": true,
+    "initialization_start": "2025-01-07",
+    "initialization_end": "2026-08-13",
+    "training_normalization_recomputed_and_matched": true,
+    "all_three_artifact_checksums_verified": true,
+    "verification_date": "2026-09-07"
+  }
+}

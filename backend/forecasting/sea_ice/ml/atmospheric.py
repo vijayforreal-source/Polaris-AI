@@ -12,7 +12,6 @@ ERA5_REQUEST_VARIABLES = (
     "2m_temperature",
 )
 
-
 def load_daily_forcing(
     path: Path,
     sea_ice_times: np.ndarray,
@@ -23,19 +22,52 @@ def load_daily_forcing(
     with xr.open_dataset(path) as source:
         missing = set(FORCING_VARIABLES) - set(source.data_vars)
         if missing:
-            raise ValueError(f"Atmospheric forcing variables missing: {sorted(missing)}")
+            raise ValueError(
+                f"Atmospheric forcing variables missing: {sorted(missing)}"
+            )
+
         native_times = source.time.values.astype("datetime64[D]")
+        if not np.array_equal(source.time.values, native_times.astype("datetime64[ns]")):
+            raise ValueError("Forcing must be at 00:00 UTC initialization-state only")
+
         if len(np.unique(native_times)) != len(native_times):
-            raise ValueError("Forcing must contain exactly one value per UTC day")
+            raise ValueError(
+                "Forcing must contain exactly one value per UTC day"
+            )
+
         requested = sea_ice_times.astype("datetime64[D]")
+
         if not np.array_equal(native_times, requested):
-            raise ValueError("Forcing days must exactly match sea-ice observation days")
+            raise ValueError(
+                "Forcing days must exactly match sea-ice observation days"
+            )
+
+        source_latitude = np.asarray(source.latitude.values)
+        source_longitude = np.asarray(source.longitude.values)
+
+        # The processed ERA5 cube is already on the exact POLARIS grid.
+        # Avoid performing a second unnecessary interpolation.
+        if np.array_equal(source_latitude, latitude) and np.array_equal(
+            source_longitude,
+            longitude,
+        ):
+            return np.stack(
+                [
+                    np.asarray(
+                        source[name].values,
+                        dtype="float32",
+                    )
+                    for name in FORCING_VARIABLES
+                ],
+                axis=1,
+            )
+
         return np.stack(
             [
                 _bilinear_regrid(
                     np.asarray(source[name].values),
-                    np.asarray(source.latitude.values),
-                    np.asarray(source.longitude.values),
+                    source_latitude,
+                    source_longitude,
                     latitude,
                     longitude,
                 )
@@ -43,8 +75,6 @@ def load_daily_forcing(
             ],
             axis=1,
         )
-
-
 def _bilinear_regrid(
     values: np.ndarray,
     source_latitude: np.ndarray,

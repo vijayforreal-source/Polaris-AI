@@ -32,3 +32,17 @@ class SeaIceV02TrainingConfig(SeaIceTrainingConfig):
     forcing_path: Path = Path(
         "data/processed/forecasting/era5_bharati_daily_2015_2026.nc"
     )
+class SeaIceV03TrainingConfig(SeaIceV02TrainingConfig):
+    @property
+    def input_channels(self) -> int:
+        return self.context_days * 2 + 3 + 6
+
+    model_path: Path = Path(
+        "models/sea_ice/"
+        "polaris_sea_ice_multimodal_bounded_residual_cnn_v0_3.pt"
+    )
+
+    forcing_path: Path = Path(
+        "data/processed/forecasting/"
+        "era5_bharati_daily_2015_2026.nc"
+    )

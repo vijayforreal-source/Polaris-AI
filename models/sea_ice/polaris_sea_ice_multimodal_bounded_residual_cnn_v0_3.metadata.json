@@ -1,0 +1,213 @@
+{
+  "model_name": "POLARIS Sea-Ice Multimodal Bounded Residual CNN v0.3",
+  "classification": "MODEL_PREDICTION",
+  "architecture": "multimodal bounded persistence-residual depthwise-separable CNN",
+  "parameter_count": 10995,
+  "context_days": 7,
+  "forcing_status": "ERA5_INITIALIZATION_STATE",
+  "forcing_dataset": "reanalysis-era5-single-levels",
+  "forcing_variables": [
+    "u10",
+    "v10",
+    "t2m"
+  ],
+  "forcing_time_semantics": "00:00 UTC initialization-state only",
+  "forcing_normalization": {
+    "u10": {
+      "mean": -4.359057426452637,
+      "std": 6.570419788360596
+    },
+    "v10": {
+      "mean": 1.0241528749465942,
+      "std": 4.893957614898682
+    },
+    "t2m": {
+      "mean": 255.21466064453125,
+      "std": 12.46074390411377
+    }
+  },
+  "normalization_period": {
+    "start": "2015-01-01",
+    "end": "2023-12-31"
+  },
+  "training_config": {
+    "context_days": 7,
+    "output_horizons_days": [
+      1,
+      2,
+      3
+    ],
+    "hidden_channels": 24,
+    "batch_size": 32,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "maximum_epochs": 30,
+    "early_stopping_patience": 5,
+    "random_seed": 26059,
+    "data_loader_workers": 0,
+    "source_cube": "data\\processed\\forecasting\\sea_ice_bharati_daily.nc",
+    "model_path": "models\\sea_ice\\polaris_sea_ice_multimodal_bounded_residual_cnn_v0_3.pt",
+    "forcing_path": "data\\processed\\forecasting\\era5_bharati_daily_2015_2026.nc"
+  },
+  "best_epoch": 30,
+  "best_validation_mae_percent": 4.3562331476203,
+  "training_history": [
+    {
+      "epoch": 1.0,
+      "train_mae_percent": 4.87871443249633,
+      "validation_mae_percent": 4.6436894107295394
+    },
+    {
+      "epoch": 2.0,
+      "train_mae_percent": 4.478171165571947,
+      "validation_mae_percent": 4.59037704006729
+    },
+    {
+      "epoch": 3.0,
+      "train_mae_percent": 4.445182401952102,
+      "validation_mae_percent": 4.630775986115238
+    },
+    {
+      "epoch": 4.0,
+      "train_mae_percent": 4.4275395351494256,
+      "validation_mae_percent": 4.547747699737767
+    },
+    {
+      "epoch": 5.0,
+      "train_mae_percent": 4.414304838923371,
+      "validation_mae_percent": 4.565269305036342
+    },
+    {
+      "epoch": 6.0,
+      "train_mae_percent": 4.400512501506085,
+      "validation_mae_percent": 4.547856321738131
+    },
+    {
+      "epoch": 7.0,
+      "train_mae_percent": 4.387619275149664,
+      "validation_mae_percent": 4.50661995186214
+    },
+    {
+      "epoch": 8.0,
+      "train_mae_percent": 4.371128998304354,
+      "validation_mae_percent": 4.484335683216617
+    },
+    {
+      "epoch": 9.0,
+      "train_mae_percent": 4.366032997466401,
+      "validation_mae_percent": 4.489470925856011
+    },
+    {
+      "epoch": 10.0,
+      "train_mae_percent": 4.349977672894678,
+      "validation_mae_percent": 4.472527716661328
+    },
+    {
+      "epoch": 11.0,
+      "train_mae_percent": 4.34479257425876,
+      "validation_mae_percent": 4.4652473377447945
+    },
+    {
+      "epoch": 12.0,
+      "train_mae_percent": 4.336083600450873,
+      "validation_mae_percent": 4.4602087949996205
+    },
+    {
+      "epoch": 13.0,
+      "train_mae_percent": 4.33004143195303,
+      "validation_mae_percent": 4.445752018708834
+    },
+    {
+      "epoch": 14.0,
+      "train_mae_percent": 4.3193443264423985,
+      "validation_mae_percent": 4.444533258990039
+    },
+    {
+      "epoch": 15.0,
+      "train_mae_percent": 4.309170178053823,
+      "validation_mae_percent": 4.44724789756809
+    },
+    {
+      "epoch": 16.0,
+      "train_mae_percent": 4.301943254436479,
+      "validation_mae_percent": 4.441979130279987
+    },
+    {
+      "epoch": 17.0,
+      "train_mae_percent": 4.298057524392502,
+      "validation_mae_percent": 4.481363795675013
+    },
+    {
+      "epoch": 18.0,
+      "train_mae_percent": 4.288652531740729,
+      "validation_mae_percent": 4.468376050228866
+    },
+    {
+      "epoch": 19.0,
+      "train_mae_percent": 4.287005738625598,
+      "validation_mae_percent": 4.431382945605782
+    },
+    {
+      "epoch": 20.0,
+      "train_mae_percent": 4.275763395406252,
+      "validation_mae_percent": 4.393312122768685
+    },
+    {
+      "epoch": 21.0,
+      "train_mae_percent": 4.2713931429192895,
+      "validation_mae_percent": 4.447730206298627
+    },
+    {
+      "epoch": 22.0,
+      "train_mae_percent": 4.2810357218718575,
+      "validation_mae_percent": 4.4006987079032855
+    },
+    {
+      "epoch": 23.0,
+      "train_mae_percent": 4.25568741382708,
+      "validation_mae_percent": 4.402158217723577
+    },
+    {
+      "epoch": 24.0,
+      "train_mae_percent": 4.2501981496944286,
+      "validation_mae_percent": 4.384373987978324
+    },
+    {
+      "epoch": 25.0,
+      "train_mae_percent": 4.24278835982979,
+      "validation_mae_percent": 4.386061786775607
+    },
+    {
+      "epoch": 26.0,
+      "train_mae_percent": 4.253414217627787,
+      "validation_mae_percent": 4.3903872131274495
+    },
+    {
+      "epoch": 27.0,
+      "train_mae_percent": 4.232441725012136,
+      "validation_mae_percent": 4.374444309309601
+    },
+    {
+      "epoch": 28.0,
+      "train_mae_percent": 4.233081141026241,
+      "validation_mae_percent": 4.399941730115753
+    },
+    {
+      "epoch": 29.0,
+      "train_mae_percent": 4.224745953811479,
+      "validation_mae_percent": 4.364154679078612
+    },
+    {
+      "epoch": 30.0,
+      "train_mae_percent": 4.21824396737167,
+      "validation_mae_percent": 4.3562331476203
+    }
+  ],
+  "source_dataset_sha256": "5c14a6a05fc8c351edfb0eb3509b519be3339dc283a9e1b0dd82902ded6b0400",
+  "forcing_dataset_sha256": "ba09622e086ce522534ea640d9e59fe75f2b3874be4cd63063e7fdf9a72a5659",
+  "model_file_sha256": "aba2c90463130dae416658715f64a07a7643b89f4514045dedc8744d479e0cc7",
+  "torch_version": "2.13.0+cpu",
+  "cuda_available": false,
+  "cpu_count": 8,
+  "trained_at": "2026-09-06T06:51:09.409843+00:00"
+}

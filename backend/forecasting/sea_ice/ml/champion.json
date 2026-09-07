@@ -1,0 +1,28 @@
+{
+  "model_version": "v0.3",
+  "model_name": "POLARIS Sea-Ice Multimodal Bounded Residual CNN v0.3",
+  "architecture": "multimodal bounded persistence-residual depthwise-separable CNN",
+  "weights_path": "models/sea_ice/polaris_sea_ice_multimodal_bounded_residual_cnn_v0_3.pt",
+  "metadata_path": "models/sea_ice/polaris_sea_ice_multimodal_bounded_residual_cnn_v0_3.metadata.json",
+  "weights_sha256": "aba2c90463130dae416658715f64a07a7643b89f4514045dedc8744d479e0cc7",
+  "historical_test_mae": {
+    "24H": 2.8779149296126323,
+    "48H": 4.0666596431003255,
+    "72H": 4.788987137609075
+  },
+  "selected_at": "2026-09-07",
+  "selection_reason": "ADOPT_V03: lower MAE at all horizons, zero clipping, initialization-only forcing and training-only normalization. Paired bootstrap evidence reported separately.",
+  "fallback_model": "PERSISTENCE",
+  "forcing_required": true,
+  "forcing_variables": [
+    "u10",
+    "v10",
+    "t2m"
+  ],
+  "classification": "MODEL_PREDICTION",
+  "limitations": [
+    "ERA5 is historical reanalysis, not an operational weather forecast.",
+    "Validation still improving at epoch 30; no retraining after locked evaluation.",
+    "Daily IID bootstrap does not account for serial correlation."
+  ]
+}

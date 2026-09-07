@@ -19,7 +19,7 @@ def test_root() -> None:
     assert response.json() == {
         "system": "POLARIS-AI",
         "status": "operational",
-        "phase": "Day 1 - Foundation",
+        "phase": "Checkpoint 3 - Sea-ice prediction engine; historical champion v0.3",
     }
 
 

@@ -6,6 +6,10 @@ async function getJson(path, signal) {
   return response.json();
 }
 
+export const fetchForecastStatus = (signal) => getJson("/api/sea-ice/forecast/status", signal);
+export const fetchForecastResults = (signal) => getJson("/api/sea-ice/forecast/results", signal);
+export const fetchForecast = (date, signal) => getJson(date ? `/api/sea-ice/forecast/historical?date=${encodeURIComponent(date)}` : "/api/sea-ice/forecast/latest", signal);
+
 export async function fetchLatestSeaIce(signal) {
   const [metadata, grid] = await Promise.all([
     getJson("/api/sea-ice/latest/metadata", signal),
