@@ -1251,3 +1251,16 @@ dd {
 .transit-details { margin:15px 0; padding-top:15px; border-top:1px solid #526670; overflow-wrap:anywhere; }
 .transit-disclaimer { color:#efc06b; }
 .transit-pagination { display:flex; gap:6px; align-items:center; font-size:10px; }
+
+.dynamic-risk-panel p { font-size:12px; line-height:1.5; overflow-wrap:anywhere; }
+.dynamic-risk-panel small { display:block; font-size:11px; line-height:1.5; color:#a5b7bd; }
+.risk-vessel-label { display:grid; gap:8px; font-size:12px; }
+.risk-vessel-label select { width:100%; color:#d9edf4; background:#17242b; padding:8px; border:1px solid #526670; }
+.risk-horizons { display:flex; gap:7px; margin:12px 0; }
+.risk-horizons button { color:#a5b7bd; background:#17242b; border:1px solid #526670; padding:8px; cursor:pointer; }
+.risk-horizons button[aria-pressed=true] { color:#58d9cc; border-color:#58d9cc; }
+.risk-key { display:inline-flex; align-items:center; gap:4px; margin:6px 8px 6px 0; font-size:10px; }
+.risk-key i { display:inline-block; width:10px; height:10px; }
+.risk-legend { max-width:350px; }
+.risk-legend small { display:block; color:#a5b7bd; font-size:10px; }
+.risk-point { margin:15px 0; border-top:1px solid #526670; padding-top:12px; }
