@@ -14,10 +14,11 @@ import IcebergPopup from "./IcebergPopup.jsx";
 import { createHistoricalTransitLayer } from "./HistoricalTransitLayer.js";
 import { extend as extendExtent } from "ol/extent.js";
 import { createDynamicRiskLayer } from "./DynamicRiskLayer.js";
+import { createRouteLayer } from "./RouteLayer.js";
 
 const NO_ICEBERGS = [];
 
-export default function AntarcticMap({ metadata, grid, icebergs = NO_ICEBERGS, historicalTracks = NO_ICEBERGS, onSelectVoyage, riskField = null, onRiskPoint }) {
+export default function AntarcticMap({ metadata, grid, icebergs = NO_ICEBERGS, historicalTracks = NO_ICEBERGS, onSelectVoyage, riskField = null, onRiskPoint, routes = NO_ICEBERGS, selectedRoute = null, onMapCoordinate }) {
   const mapTarget = useRef(null);
   const [landWarning, setLandWarning] = useState("");
   const [selectedIceberg, setSelectedIceberg] = useState(null);
@@ -42,10 +43,11 @@ export default function AntarcticMap({ metadata, grid, icebergs = NO_ICEBERGS, h
     icebergLayer.setZIndex(5);
     const bharatiLayer = createBharatiLayer(metadata.bharati);
     bharatiLayer.setZIndex(5);
-    const map = new Map({ target: mapTarget.current, layers: [landLayer, createSeaIceLayer(grid), icebergLayer, bharatiLayer, transitLayer, createDynamicRiskLayer(riskField)], view: new View({ projection: ANTARCTIC_CRS }), controls: [] });
+    const map = new Map({ target: mapTarget.current, layers: [landLayer, createSeaIceLayer(grid), icebergLayer, bharatiLayer, transitLayer, createDynamicRiskLayer(riskField), createRouteLayer(routes, selectedRoute)], view: new View({ projection: ANTARCTIC_CRS }), controls: [] });
     map.on("singleclick", (event) => {
       if (riskField) {
         const [longitude,latitude] = transform(event.coordinate,ANTARCTIC_CRS,"EPSG:4326");
+        onMapCoordinate?.({ latitude, longitude });
         setSelectedIceberg(null);
         onRiskPoint?.({latitude,longitude});
         return;
@@ -62,6 +64,6 @@ export default function AntarcticMap({ metadata, grid, icebergs = NO_ICEBERGS, h
     if (transitLayer.getSource().getFeatures().length) extendExtent(extent, transitLayer.getSource().getExtent());
     map.getView().fit(extent, { padding: [70, 70, 70, 70], maxZoom: 8 });
     return () => map.setTarget(undefined);
-  }, [metadata, grid, icebergs, historicalTracks, onSelectVoyage, riskField, onRiskPoint]);
+  }, [metadata, grid, icebergs, historicalTracks, onSelectVoyage, riskField, onRiskPoint, routes, selectedRoute, onMapCoordinate]);
   return <><div ref={mapTarget} className="antarctic-map" aria-label="Verified Antarctic sea-ice and USNIC iceberg map" /><div className="projection-label">DISPLAY / EPSG:3031</div>{landWarning && <div className="land-warning">{landWarning}</div>}<IcebergPopup iceberg={selectedIceberg} onClose={() => setSelectedIceberg(null)} /></>;
 }

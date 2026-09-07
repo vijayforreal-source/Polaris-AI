@@ -7,6 +7,7 @@ from backend.app.api.health import router as health_router
 from backend.app.api.historical_transit import router as historical_transit_router
 from backend.app.api.icebergs import router as iceberg_router
 from backend.app.api.risk import router as risk_router
+from backend.app.api.routes import router as routes_router
 from backend.app.api.sea_ice import router as sea_ice_router
 from backend.app.api.trajectory import router as trajectory_router
 from backend.app.core.config import get_settings
@@ -30,6 +31,7 @@ app.add_middleware(
 app.include_router(health_router)
 app.include_router(historical_transit_router)
 app.include_router(risk_router)
+app.include_router(routes_router)
 app.include_router(sea_ice_router)
 app.include_router(iceberg_router)
 app.include_router(trajectory_router)
