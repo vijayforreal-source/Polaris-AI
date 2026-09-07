@@ -1241,3 +1241,13 @@ dd {
 .forecast-notice { padding:12px 20px; font-size:12px; }
 
 .forecast-workspace { grid-template-rows:62px auto auto minmax(320px,1fr) auto; overflow:auto; }
+
+.transit-toggle { display:flex; gap:9px; align-items:center; padding:12px 0; cursor:pointer; font-size:13px; }
+.transit-toggle input { accent-color:#efc06b; }
+.historical-transit-panel p { line-height:1.5; font-size:12px; }
+.historical-transit-panel small { display:block; line-height:1.5; color:#a5b7bd; }
+.transit-voyages { display:grid; gap:8px; margin:12px 0; }
+.transit-voyages button, .transit-details button, .transit-pagination button { color:#e7c386; background:#17242b; border:1px solid #526670; padding:8px; cursor:pointer; text-align:left; }
+.transit-details { margin:15px 0; padding-top:15px; border-top:1px solid #526670; overflow-wrap:anywhere; }
+.transit-disclaimer { color:#efc06b; }
+.transit-pagination { display:flex; gap:6px; align-items:center; font-size:10px; }

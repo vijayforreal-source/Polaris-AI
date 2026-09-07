@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from backend.app.api.health import router as health_router
+from backend.app.api.historical_transit import router as historical_transit_router
 from backend.app.api.icebergs import router as iceberg_router
 from backend.app.api.sea_ice import router as sea_ice_router
 from backend.app.api.trajectory import router as trajectory_router
@@ -26,6 +27,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 app.include_router(health_router)
+app.include_router(historical_transit_router)
 app.include_router(sea_ice_router)
 app.include_router(iceberg_router)
 app.include_router(trajectory_router)
