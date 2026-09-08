@@ -1,0 +1,3 @@
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "http://127.0.0.1:8000";
+export async function fetchOperationsStatus(signal) { const response = await fetch(`${API_BASE_URL}/api/operations/status`, { signal }); if (!response.ok) throw new Error(`Operations API returned HTTP ${response.status}.`); return response.json(); }
+export async function createMission(payload) { const response = await fetch(`${API_BASE_URL}/api/operations/missions`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) }); const data = await response.json(); if (!response.ok) throw new Error(data.detail?.message ?? "Mission creation failed."); return data; }
