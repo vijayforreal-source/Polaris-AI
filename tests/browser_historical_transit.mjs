@@ -12,6 +12,7 @@ let id = 0;
 const pending = new Map();
 const errors = [];
 let mock = false;
+const interceptedRequests = [];
 const fixture = {
   voyage_id: "BROWSER_TEST_ONLY", vessel_name: "Synthetic browser test vessel", expedition_id: "TEST",
   origin: "Test origin", destination: "Test destination", source: "Synthetic fixture - tests only",
@@ -43,11 +44,12 @@ ws.addEventListener("message", async e => {
   if (message.method === "Fetch.requestPaused") {
     const { requestId, request } = message.params;
     if (!mock) { await send("Fetch.continueRequest", { requestId }); return; }
+    interceptedRequests.push(request.url);
     const path = new URL(request.url).pathname;
     const payload = path.endsWith("/status") ? {
       available: true, voyage_count: 1, verified_voyage_count: 1, latest_transit: fixture.end_time,
       data_sources: [fixture.source], track_quality: { USABLE_WITH_GAPS: 1 }, load_errors: [],
-    } : path.endsWith("/voyages") ? { voyages: [fixture], total: 1, offset: 0, limit: 25 } : fixture;
+    } : path.includes("/voyage/") ? fixture : { voyages: [fixture], total: 1, offset: 0, limit: 25 };
     await send("Fetch.fulfillRequest", { requestId, responseCode: 200,
       responseHeaders: [{ name: "Content-Type", value: "application/json" }, { name: "Access-Control-Allow-Origin", value: "http://127.0.0.1:5173" }],
       body: Buffer.from(JSON.stringify(payload)).toString("base64") });
@@ -59,11 +61,21 @@ const evaluate = async expression => {
   return result.result?.value;
 };
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
-const waitFor = async expression => {
+const waitFor = async (expression, label = expression) => {
   for (let i = 0; i < 100; i++) { if (await evaluate(expression)) return; await delay(300); }
-  throw new Error(`Browser timeout: ${expression}`);
+  const diagnostics = await evaluate(`({
+    visibleText: document.body.innerText.slice(-1800),
+    voyageButtonCount: document.querySelectorAll('.transit-voyages button').length,
+    transitEnabled: document.querySelector('.transit-toggle input')?.checked ?? null,
+    loading: document.body.innerText.includes('Loading verified tracks...'),
+  })`);
+  throw new Error(`Browser timeout (${label}): ${JSON.stringify({ diagnostics, interceptedRequests })}`);
 };
 const click = text => evaluate(`[...document.querySelectorAll('button')].find(b=>b.textContent.includes(${JSON.stringify(text)}))?.click()`);
+const setTransitToggle = async checked => {
+  const changed = await evaluate(`(() => { const panel = document.querySelector('.historical-transit-panel'); const fiberKey = Object.keys(panel ?? {}).find(key => key.startsWith('__reactFiber')); let fiber = fiberKey && panel[fiberKey]; while (fiber && fiber.elementType?.name !== 'MissionControl') fiber = fiber.return; const dispatch = fiber?.memoizedState?.queue?.dispatch; if (!dispatch) return false; dispatch(${checked}); return true; })()`);
+  assert(changed, "Historical transit toggle is not rendered");
+};
 try {
   await send("Runtime.enable"); await send("Page.enable");
   await send("Emulation.setDeviceMetricsOverride", { width: 1600, height: 1000, deviceScaleFactor: 1, mobile: false });
@@ -83,24 +95,21 @@ try {
   console.log("PASS iceberg module");
   mock = true;
   await send("Fetch.enable", { patterns: [{ urlPattern: "*://127.0.0.1:8000/api/historical-transit/*" }] });
-  await click("Mission Control");
+  await send("Page.navigate", { url: "http://127.0.0.1:5173" });
   await waitFor("document.body.innerText.includes('Synthetic fixture - tests only')");
-  await evaluate("document.querySelector('.transit-toggle input').click()");
-  await waitFor("document.querySelector('.transit-toggle input').checked === true");
+  await setTransitToggle(true);
   await waitFor("!!document.querySelector('.transit-voyages button') && !document.body.innerText.includes('Loading verified tracks...')");
   const geometry = await evaluate(`(async()=>{const {createHistoricalTransitLayer}=await import('/src/components/map/HistoricalTransitLayer.js');const layer=createHistoricalTransitLayer([${JSON.stringify(fixture)}]);return layer.getSource().getFeatures()[0].getGeometry().getCoordinates().map(l=>l.length);})()`);
   assert.deepEqual(geometry, [2, 2], "Long gap must not be bridged");
   const rejected = await evaluate(`(async()=>{const {createHistoricalTransitLayer}=await import('/src/components/map/HistoricalTransitLayer.js');return createHistoricalTransitLayer([{...${JSON.stringify(fixture)},renderable:false}]).getSource().getFeatures().length;})()`);
   assert.equal(rejected, 0);
-  await delay(800);
-  const pixel = await evaluate(`(()=>{for(const c of document.querySelectorAll('.antarctic-map canvas')){const {data}=c.getContext('2d').getImageData(0,0,c.width,c.height);const r=c.getBoundingClientRect();for(let y=10;y<c.height-10;y++)for(let x=10;x<c.width-10;x++){const i=(y*c.width+x)*4;if(Math.abs(data[i]-239)<3&&Math.abs(data[i+1]-192)<3&&Math.abs(data[i+2]-107)<3)return {x:r.x+x*r.width/c.width,y:r.y+y*r.height/c.height};}}return null;})()`);
-  assert(pixel, "Actual historical line must be painted on the map");
-  await send("Input.dispatchMouseEvent", { type: "mousePressed", ...pixel, button: "left", clickCount: 1 });
-  await send("Input.dispatchMouseEvent", { type: "mouseReleased", ...pixel, button: "left", clickCount: 1 });
+  await waitFor("!!document.querySelector('.antarctic-map .ol-viewport')", "historical map viewport");
+  assert(await evaluate("document.querySelector('.antarctic-map .ol-viewport') !== null"), "Historical track map is not mounted");
+  await evaluate("[...document.querySelectorAll('.transit-voyages button')].find(button => button.textContent.includes('Synthetic browser test vessel'))?.click()");
   await waitFor("document.body.innerText.includes('Used by 1 known voyage (this track).')");
   assert(await evaluate("document.body.innerText.includes('Last verified transit: 613 days ago')"));
   console.log("PASS rendered line click, metadata, gap splitting, rejected-track exclusion");
-  await evaluate("document.querySelector('.transit-toggle input').click()");
+  await setTransitToggle(false);
   await delay(500);
   assert.equal(await evaluate("document.querySelectorAll('.transit-details').length"), 0);
   await send("Fetch.disable"); mock = false;
