@@ -3,7 +3,7 @@
 import assert from "node:assert/strict";
 import { mkdir, writeFile } from "node:fs/promises";
 
-const pages = await (await fetch("http://127.0.0.1:9223/json/list")).json();
+const pages = await (await fetch(('http://127.0.0.1:' + (process.env.POLARIS_CDP_PORT || 9223) + '/json/list'))).json();
 const page = pages.find(p => p.type === "page");
 assert(page, "Start isolated headless Chrome with --remote-debugging-port=9223");
 const ws = new WebSocket(page.webSocketDebuggerUrl);
@@ -77,7 +77,7 @@ const waitFor = async (expression, label = expression) => {
 };
 const click = text => evaluate(`[...document.querySelectorAll('button')].find(b=>b.textContent.includes(${JSON.stringify(text)}))?.click()`);
 const setTransitToggle = async checked => {
-  const changed = await evaluate(`(() => { const panel = document.querySelector('.historical-transit-panel'); const fiberKey = Object.keys(panel ?? {}).find(key => key.startsWith('__reactFiber')); let fiber = fiberKey && panel[fiberKey]; while (fiber && fiber.elementType?.name !== 'MissionControl') fiber = fiber.return; const dispatch = fiber?.memoizedState?.queue?.dispatch; if (!dispatch) return false; dispatch(${checked}); return true; })()`);
+  const changed = await evaluate(`(() => { const input = document.querySelector('.historical-transit-panel .transit-toggle input'); if (!input) return false; if (input.checked !== ${checked}) input.click(); return true; })()`);
   assert(changed, "Historical transit toggle is not rendered");
 };
 try {
@@ -103,10 +103,10 @@ try {
   await waitFor("document.body.innerText.includes('Synthetic fixture - tests only')");
   await setTransitToggle(true);
   await waitFor("!!document.querySelector('.transit-voyages button') && !document.body.innerText.includes('Loading verified tracks...')");
-  const geometry = await evaluate(`(async()=>{const {createHistoricalTransitLayer}=await import('/src/components/map/HistoricalTransitLayer.js');const layer=createHistoricalTransitLayer([${JSON.stringify(fixture)}]);return layer.getSource().getFeatures()[0].getGeometry().getCoordinates().map(l=>l.length);})()`);
+  const { createHistoricalTransitLayer } = await import('../frontend/src/components/map/HistoricalTransitLayer.js');
+  const geometry = createHistoricalTransitLayer([fixture]).getSource().getFeatures()[0].getGeometry().getCoordinates().map(line => line.length);
   assert.deepEqual(geometry, [2, 2], "Long gap must not be bridged");
-  const rejected = await evaluate(`(async()=>{const {createHistoricalTransitLayer}=await import('/src/components/map/HistoricalTransitLayer.js');return createHistoricalTransitLayer([{...${JSON.stringify(fixture)},renderable:false}]).getSource().getFeatures().length;})()`);
-  assert.equal(rejected, 0);
+  assert.equal(createHistoricalTransitLayer([{...fixture, renderable: false}]).getSource().getFeatures().length, 0);
   await waitFor("!!document.querySelector('.antarctic-map .ol-viewport')", "historical map viewport");
   assert(await evaluate("document.querySelector('.antarctic-map .ol-viewport') !== null"), "Historical track map is not mounted");
   await evaluate("[...document.querySelectorAll('.transit-voyages button')].find(button => button.textContent.includes('Synthetic browser test vessel'))?.click()");
@@ -120,8 +120,7 @@ try {
   await send("Page.navigate", { url: process.env.POLARIS_SMOKE_URL || "http://127.0.0.1:5173" });
   await waitFor("document.body.innerText.includes('No verified historical voyage tracks are currently loaded.')");
   await mkdir("artifacts", { recursive: true });
-  const shot = await send("Page.captureScreenshot", { format: "png" });
-  await writeFile("artifacts/historical-transit-empty-state.png", Buffer.from(shot.data, "base64"));
+  await writeFile("artifacts/historical-transit-empty-state.txt", await evaluate("document.body.innerText"));
   assert.deepEqual(errors, []);
   console.log("PASS zero JavaScript exceptions; production store remains empty");
 } finally {

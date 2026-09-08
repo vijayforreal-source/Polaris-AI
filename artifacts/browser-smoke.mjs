@@ -1,6 +1,6 @@
 import { writeFile } from "node:fs/promises";
 
-const pages = await (await fetch("http://127.0.0.1:9223/json/list")).json();
+const pages = await (await fetch(('http://127.0.0.1:' + (process.env.POLARIS_CDP_PORT || 9223) + '/json/list'))).json();
 const page = pages.find((item) => item.type === "page");
 if (!page) throw new Error("No Chrome page");
 const ws = new WebSocket(page.webSocketDebuggerUrl);
