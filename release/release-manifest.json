@@ -1,25 +1,62 @@
 {
   "product": "POLARIS-AI",
   "version": "1.0.0-rc1",
-  "git_commit": "e221986",
-  "build_timestamp_utc": "2026-09-08T00:00:00Z",
+  "git_commit": "4c51bd6e6ff28de9d7a8e27f069ea226504d0261",
+  "build_timestamp_utc": "2026-09-08T13:29:44.979707+00:00",
   "platform": "Windows x64",
   "desktop_architecture": "PyWebView + PyInstaller folder bundle",
   "model_version": "v0.3",
   "model_sha256": "aba2c90463130dae416658715f64a07a7643b89f4514045dedc8744d479e0cc7",
   "regional_domain": "Bharati / Prydz Bay",
-  "tests_passed": 166,
+  "tests_passed": 167,
   "release_artifacts": [
-    {"name": "POLARIS-AI-Setup-1.0.0-rc1.exe", "sha256": null, "status": "pending Inno Setup execution"},
-    {"name": "POLARIS-AI-1.0.0-rc1-windows-x64.zip", "sha256": null, "status": "pending release archive creation"}
+    {
+      "path": "release/windows/rc1/dist/POLARIS-AI/POLARIS-AI.exe",
+      "sha256": "b7267599681b13f3f36e9fec17ec80cdc7520ce5d5eeb21a4852be2175fe8b79",
+      "bytes": 56455074,
+      "status": "validated"
+    },
+    {
+      "path": "release/windows/installer/POLARIS-AI-Setup-1.0.0-rc1.exe",
+      "sha256": "c4573abdefd91d8e41a8763497171e54adaa196fe0af0e3eba130dbf0d5375ed",
+      "bytes": 1051479914,
+      "status": "validated"
+    }
   ],
   "known_limitations": [
-    "Regional Bharati / Prydz Bay prototype",
-    "72-hour validated sea-ice horizon",
-    "No certified or autonomous navigation",
-    "No live AIS/GPS provider configured",
-    "ERA5 is historical reanalysis",
-    "Unsigned installer pending Windows build",
-    "Packaged offline validation pending Windows host"
-  ]
+    "Regional Bharati / Prydz Bay research prototype; not certified navigation",
+    "72-hour sea-ice horizon; current stale observation correctly uses persistence",
+    "No live AIS/GPS or operational future-weather provider; ERA5 is historical reanalysis",
+    "Session-only mission, active-route, event, cache-index and sync state; durable state required before operational release",
+    "Unsigned installer; system WebView2 runtime required",
+    "676.60 KB main frontend chunk advisory",
+    "Physical network disconnection and clean-machine/VM validation not performed",
+    "Sync queue empty in installed test; reconnect eligibility policy verified, no external download claimed",
+    "Installed process outlived the 15-second close probe before exiting; follow-up found no orphan"
+  ],
+  "git_commit_meaning": "Runtime source commit; subsequent commits contain test/docs/release metadata only",
+  "validation_timestamp_utc": "2026-09-08T17:14:10.121778+00:00",
+  "pytest_warnings": 14,
+  "installed_size_bytes": 1621712026,
+  "bundle_size_bytes": 1615180087,
+  "offline_validation": "CONTROLLED APPLICATION OFFLINE TEST; manual override plus blocked external WebView requests; no physical network disconnect",
+  "runtime_memory_working_set_bytes": 1264177152,
+  "startup_observations_seconds": {
+    "packaged_backend": [
+      29.9676944,
+      5.3361621,
+      52.735718
+    ],
+    "installed_backend": [
+      16.3177397,
+      9.0825557
+    ],
+    "installed_document_loaded": [
+      18.473,
+      13.846
+    ]
+  },
+  "final_shutdown_seconds": 16.5750215,
+  "validation_status": "CHECKPOINT 10 COMPLETE",
+  "release_status": "POLARIS-AI 1.0.0-rc1 RELEASE CANDIDATE READY"
 }

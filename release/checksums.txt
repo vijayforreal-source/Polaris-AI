@@ -1,0 +1,2 @@
+b7267599681b13f3f36e9fec17ec80cdc7520ce5d5eeb21a4852be2175fe8b79  release/windows/rc1/dist/POLARIS-AI/POLARIS-AI.exe
+c4573abdefd91d8e41a8763497171e54adaa196fe0af0e3eba130dbf0d5375ed  release/windows/installer/POLARIS-AI-Setup-1.0.0-rc1.exe

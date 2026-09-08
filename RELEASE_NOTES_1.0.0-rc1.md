@@ -22,4 +22,15 @@ The scope is Bharati / Prydz Bay. The system is not certified navigation, autono
 
 ## Validation
 
-The source release passed 165 pytest tests, Ruff, the production frontend build, main browser smoke, and historical transit browser smoke in the release audit. Packaged Windows validation requires a Windows machine with PyInstaller, PyWebView, and Inno Setup; this repository contains the reproducible build and smoke commands.
+The final source passed 167 Python tests (14 dependency/cache warnings), Ruff, and the
+production build. Both browser smokes passed against native production assets. The
+fresh PyInstaller bundle, native desktop, silent per-user installer, installed app,
+controlled application offline mode, reconnect and uninstall were validated on Windows.
+No physical network disconnection or clean-machine VM test is claimed. The installer is
+unsigned and requires the system WebView2 runtime. See the final test report for actual
+measurements, warning classifications and evidence.
+
+Packaging fixes include selected-port frontend/CORS wiring, retained file logging,
+model checksum verification, a Windows session mutex and backend thread shutdown waiting.
+Missions, active routes, events and sync state are session-only in this research RC.
+Durable state remains required before an operational release.

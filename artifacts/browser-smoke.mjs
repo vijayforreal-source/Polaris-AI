@@ -34,7 +34,7 @@ const evaluate = async (expression) => {
 const delay = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds));
 const waitFor = async (expression) => {
   for (let attempt = 0; attempt < 120; attempt += 1) {
-    if (await evaluate(expression)) return;
+    if (await evaluate("document.body && (" + expression + ")")) return;
     await delay(500);
   }
   throw new Error(`Timeout: ${expression}`);

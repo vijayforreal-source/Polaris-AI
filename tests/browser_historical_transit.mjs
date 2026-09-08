@@ -66,7 +66,7 @@ const evaluate = async expression => {
 };
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 const waitFor = async (expression, label = expression) => {
-  for (let i = 0; i < 100; i++) { if (await evaluate(expression)) return; await delay(300); }
+  for (let i = 0; i < 100; i++) { if (await evaluate("document.body && (" + expression + ")")) return; await delay(300); }
   const diagnostics = await evaluate(`({
     visibleText: document.body.innerText.slice(-1800),
     voyageButtonCount: document.querySelectorAll('.transit-voyages button').length,

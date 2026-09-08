@@ -1,22 +1,22 @@
 # Release checklist
 
-| Gate | Status |
+| Gate | Result |
 |---|---|
-| Repository audit | PASS |
-| Scientific core frozen | PASS |
-| Desktop architecture documented | PASS |
-| Frontend production build | PASS |
-| Backend launcher and health handshake | PASS in source/headless design; Windows bundle pending |
-| Model v0.3 verification | PASS in source environment |
-| AppData/log path design | PASS |
-| PyInstaller bundle | PENDING Windows build |
-| Installer | PENDING Inno Setup build |
-| Clean-machine install | PENDING Windows host |
-| Packaged offline start | PENDING Windows host |
-| Packaged shutdown/orphan check | PENDING Windows host |
-| Secret scan | PASS for source release staging; generated bundle not built |
-| Absolute developer-path scan | REVIEWED; relative resource resolution used by launcher |
-| Pytest / Ruff / frontend | PASS |
-| Browser smoke tests | PASS |
-| Release docs | PASS |
-| Release tag | BLOCKED until packaged Windows validation |
+| Source ancestry and clean build input | PASS |
+| Frozen scientific model and packaged inference | PASS |
+| Fresh PyInstaller / native window / Navigation | PASS |
+| Packaged APIs and isolated DEMO routing/replanning | PASS |
+| Single instance and eventual process cleanup | PASS; installed exit exceeded first 15-second probe |
+| Inno installer / per-user path with spaces | PASS |
+| Installed startup independent of development environment | PASS |
+| Installed native UI and browser smokes | PASS |
+| Controlled application offline and reconnect | PASS; no physical disconnect claimed |
+| AppData / no install-directory writes | PASS; operational state remains session-only |
+| Uninstall and AppData preservation | PASS |
+| Source / staging / installer-input security review | PASS |
+| 167 tests / Ruff / production build | PASS |
+| Must-fix debt dispositions | Documented; research RC scope explicit |
+| Checksums and release metadata | Written |
+| Release tag | Created only after final commit and clean-tree verification |
+
+See FINAL_TEST_REPORT.md for actual measurements, limitations and warning classifications.
