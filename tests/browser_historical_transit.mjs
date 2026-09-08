@@ -83,7 +83,7 @@ const setTransitToggle = async checked => {
 try {
   await send("Runtime.enable"); await send("Page.enable");
   await send("Emulation.setDeviceMetricsOverride", { width: 1600, height: 1000, deviceScaleFactor: 1, mobile: false });
-  await send("Page.navigate", { url: "http://127.0.0.1:5173" });
+  await send("Page.navigate", { url: process.env.POLARIS_SMOKE_URL || "http://127.0.0.1:5173" });
   await waitFor("document.body.innerText.includes('No verified historical voyage tracks are currently loaded.') && !!document.querySelector('.antarctic-map')");
   await evaluate("document.querySelector('.transit-toggle input').click()");
   assert(await evaluate("document.querySelector('.transit-toggle input').checked"));
@@ -99,7 +99,7 @@ try {
   console.log("PASS iceberg module");
   mock = true;
   await send("Fetch.enable", { patterns: [{ urlPattern: "*://127.0.0.1:8000/api/historical-transit/*" }] });
-  await send("Page.navigate", { url: "http://127.0.0.1:5173" });
+  await send("Page.navigate", { url: process.env.POLARIS_SMOKE_URL || "http://127.0.0.1:5173" });
   await waitFor("document.body.innerText.includes('Synthetic fixture - tests only')");
   await setTransitToggle(true);
   await waitFor("!!document.querySelector('.transit-voyages button') && !document.body.innerText.includes('Loading verified tracks...')");
@@ -117,7 +117,7 @@ try {
   await delay(500);
   assert.equal(await evaluate("document.querySelectorAll('.transit-details').length"), 0);
   await send("Fetch.disable"); mock = false;
-  await send("Page.navigate", { url: "http://127.0.0.1:5173" });
+  await send("Page.navigate", { url: process.env.POLARIS_SMOKE_URL || "http://127.0.0.1:5173" });
   await waitFor("document.body.innerText.includes('No verified historical voyage tracks are currently loaded.')");
   await mkdir("artifacts", { recursive: true });
   const shot = await send("Page.captureScreenshot", { format: "png" });

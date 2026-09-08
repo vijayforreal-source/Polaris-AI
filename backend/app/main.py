@@ -1,4 +1,5 @@
 import logging
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -20,7 +21,24 @@ from backend.operations.service import health as operational_health
 settings = get_settings()
 configure_logging(logging.DEBUG if settings.debug else logging.INFO)
 
-app = FastAPI(title=settings.app_name, debug=settings.debug)
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    try:
+        report = operational_health()
+        logging.getLogger(__name__).info(
+            "startup operational health status=%s snapshot=%s",
+            report["overall_status"],
+            report["latest_environment_version"],
+        )
+    except Exception as error:
+        logging.getLogger(__name__).warning(
+            "startup health unavailable error=%s", type(error).__name__
+        )
+
+    yield
+
+
+app = FastAPI(title=settings.app_name, debug=settings.debug, lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=list(
@@ -42,19 +60,6 @@ app.include_router(iceberg_router)
 app.include_router(trajectory_router)
 
 
-@app.on_event("startup")
-async def startup_health() -> None:
-    try:
-        report = operational_health()
-        logging.getLogger(__name__).info(
-            "startup operational health status=%s snapshot=%s",
-            report["overall_status"],
-            report["latest_environment_version"],
-        )
-    except Exception as error:
-        logging.getLogger(__name__).warning(
-            "startup health unavailable error=%s", type(error).__name__
-        )
 
 
 @app.get("/")

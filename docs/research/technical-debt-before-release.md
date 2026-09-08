@@ -1,18 +1,25 @@
 # Technical debt before release
 
-## MUST FIX BEFORE RELEASE
+## RC1 disposition of every former MUST FIX BEFORE RELEASE item
 
-- Replace in-memory missions/events/sync state with durable, atomic local storage.
-- Add real authenticated provider adapters only after governance and credentials are approved.
-- Replace deprecated FastAPI startup event with a lifespan handler.
-- Add browser-level automated smoke coverage for every Mission Control panel.
+- Durable missions/events/sync storage: reclassified MUST FIX BEFORE operational release.
+  RC1 is a research evaluation build with explicitly session-only mission, active-route,
+  event and sync state. Restart clears these; no operational continuity is promised.
+  Adding persistence now would expand scope and require recovery/consistency validation.
+- Authenticated providers: reclassified FUTURE, subject to governance and credentials.
+  Optional unconfigured providers are intentional in this local historical research RC.
+- FastAPI startup deprecation: resolved by a lifespan handler; scientific evaluation unchanged.
+- Browser panel smoke coverage: covered by main and historical smoke scripts; final execution
+  results are recorded in docs/release/FINAL_TEST_REPORT.md.
 
 ## SHOULD FIX
 
-- Reduce startup health latency by separating cached status from full scientific evaluation.
-- Add richer cache generation history and atomic artifact download implementation.
-- Add explicit route/candidate styling and waypoint inspection controls.
+- Reduce startup health latency by separating cached status from scientific evaluation.
+- Add richer cache generation history and atomic artifact downloads.
+- Add waypoint inspection controls.
+- Split the frontend main chunk; defer refactor to avoid destabilizing RC1.
 
 ## FUTURE
 
-- Desktop packaging, bundled runtime, larger-domain preparation, bathymetry, live telemetry, and production deployment are deferred to later checkpoints.
+- Durable operational state, authenticated providers, bathymetry, larger domains and live telemetry.
+- Desktop packaging is implemented; Windows validation results are tracked in the release report.

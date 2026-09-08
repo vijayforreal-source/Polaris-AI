@@ -54,7 +54,7 @@ const clickButton = async (label) => {
 await send("Runtime.enable");
 await send("Page.enable");
 await send("Emulation.setDeviceMetricsOverride", { width: 1600, height: 1000, deviceScaleFactor: 1, mobile: false });
-await send("Page.navigate", { url: "http://127.0.0.1:5173" });
+await send("Page.navigate", { url: process.env.POLARIS_SMOKE_URL || "http://127.0.0.1:5173" });
 await waitFor("document.body.innerText.includes('Antarctic Operating Picture') && !!document.querySelector('.antarctic-map')");
 await waitFor("document.body.innerText.includes('Operational Status') && document.body.innerText.includes('Connection')");
 console.log("PASS Mission Control map, Operational Status, and Connectivity");

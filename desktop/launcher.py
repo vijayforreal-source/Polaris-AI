@@ -7,6 +7,8 @@ without opening a native window.
 from __future__ import annotations
 
 import argparse
+import ctypes
+import hashlib
 import json
 import logging
 import os
@@ -49,7 +51,7 @@ def choose_port(preferred: int = DEFAULT_PORT) -> int:
     raise RuntimeError("No available localhost port for the POLARIS backend")
 
 
-def frontend_server(root: Path) -> tuple[ThreadingHTTPServer, int]:
+def frontend_server(root: Path, api_port: int = DEFAULT_PORT) -> tuple[ThreadingHTTPServer, int]:
     dist = root / "frontend" / "dist"
     if not (dist / "index.html").is_file():
         raise RuntimeError(f"Production frontend assets are missing: {dist}")
@@ -57,6 +59,19 @@ def frontend_server(root: Path) -> tuple[ThreadingHTTPServer, int]:
     class StaticHandler(SimpleHTTPRequestHandler):
         def __init__(self, *args, **kwargs):
             super().__init__(*args, directory=str(dist), **kwargs)
+
+        def do_GET(self):
+            if self.path in {"/", "/index.html"}:
+                content = (dist / "index.html").read_text(encoding="utf-8")
+                config = f'<script>window.POLARIS_API_BASE_URL="http://127.0.0.1:{api_port}";</script>'
+                body = content.replace("<head>", "<head>" + config).encode("utf-8")
+                self.send_response(200)
+                self.send_header("Content-Type", "text/html; charset=utf-8")
+                self.send_header("Content-Length", str(len(body)))
+                self.end_headers()
+                self.wfile.write(body)
+                return
+            super().do_GET()
 
         def log_message(self, format, *args):  # noqa: A002
             logging.getLogger("polaris.desktop.frontend").info(format, *args)
@@ -87,16 +102,18 @@ def start_backend(root: Path, port: int, log_path: Path):
     env.update(
         POLARIS_API_HOST="127.0.0.1",
         POLARIS_API_PORT=str(port),
-        POLARIS_FRONTEND_ORIGIN=f"http://127.0.0.1:{port}",
+        POLARIS_FRONTEND_ORIGIN=os.environ.get("POLARIS_FRONTEND_ORIGIN", f"http://127.0.0.1:{port}"),
     )
     if getattr(sys, "frozen", False):
+        os.environ.update(env)
         import uvicorn
 
         from backend.app.main import app
 
         config = uvicorn.Config(app, host="127.0.0.1", port=port, log_config=None)
         server = uvicorn.Server(config)
-        threading.Thread(target=server.run, name="polaris-backend", daemon=True).start()
+        thread = threading.Thread(target=server.run, name="polaris-backend", daemon=True)
+        thread.start()
 
         class InProcessBackend:
             def poll(self):
@@ -106,9 +123,9 @@ def start_backend(root: Path, port: int, log_path: Path):
                 server.should_exit = True
 
             def wait(self, timeout=None):
-                deadline = time.monotonic() + (timeout or 30)
-                while not server.should_exit and time.monotonic() < deadline:
-                    time.sleep(0.1)
+                thread.join(timeout=timeout or 30)
+                if thread.is_alive():
+                    raise subprocess.TimeoutExpired("packaged backend", timeout)
 
             def kill(self):
                 server.should_exit = True
@@ -136,6 +153,9 @@ def verify_model(root: Path) -> dict:
     weights = root / metadata["weights_path"]
     if not weights.is_file():
         raise RuntimeError(f"Scientific runtime weights are missing: {weights}")
+    digest = hashlib.sha256(weights.read_bytes()).hexdigest()
+    if digest != "aba2c90463130dae416658715f64a07a7643b89f4514045dedc8744d479e0cc7":
+        raise RuntimeError("Champion weights checksum mismatch")
     import torch
 
     from backend.forecasting.sea_ice.ml.inference import deterministic_inference, load_model
@@ -144,10 +164,27 @@ def verify_model(root: Path) -> dict:
     output = deterministic_inference(model, torch.zeros((1, 23, 4, 4)))
     if tuple(output.shape) != (1, 3, 4, 4):
         raise RuntimeError(f"Scientific runtime inference shape mismatch: {tuple(output.shape)}")
+    logging.info(
+        "model verified version=v0.3 sha256=%s output_shape=%s forcing_variables=3",
+        digest, tuple(output.shape),
+    )
     return metadata
 
 
 def run(*, headless: bool = False) -> int:
+    started = time.monotonic()
+    mutex = None
+    if sys.platform == "win32":
+        kernel = ctypes.WinDLL("kernel32", use_last_error=True)
+        kernel.CreateMutexW.restype = ctypes.c_void_p
+        kernel.CreateMutexW.argtypes = [ctypes.c_void_p, ctypes.c_bool, ctypes.c_wchar_p]
+        kernel.CloseHandle.argtypes = [ctypes.c_void_p]
+        mutex = kernel.CreateMutexW(None, False, "Local\\POLARIS-AI-Desktop")
+        if not mutex:
+            raise ctypes.WinError(ctypes.get_last_error())
+        if ctypes.get_last_error() == 183:
+            kernel.CloseHandle(mutex)
+            return 0
     root = resources_root()
     os.chdir(root)
     log_path = appdata_root() / "logs" / "polaris-desktop.log"
@@ -161,16 +198,18 @@ def run(*, headless: bool = False) -> int:
     try:
         verify_model(root)
         port = choose_port(int(os.environ.get("POLARIS_API_PORT", DEFAULT_PORT)))
+        frontend, frontend_port = frontend_server(root, port)
+        os.environ["POLARIS_FRONTEND_ORIGIN"] = f"http://127.0.0.1:{frontend_port}"
         backend = start_backend(root, port, log_path)
         wait_for_backend(port)
-        frontend, frontend_port = frontend_server(root)
+        logging.info("backend ready seconds=%.3f", time.monotonic() - started)
         url = f"http://127.0.0.1:{frontend_port}/"
-        if headless:
-            readiness = {"status": "ready", "backend": port, "frontend": frontend_port, "url": url}
-            (appdata_root() / "startup-ready.json").write_text(
+        readiness = {"status": "ready", "backend": port, "frontend": frontend_port, "url": url}
+        (appdata_root() / "startup-ready.json").write_text(
                 json.dumps(readiness), encoding="utf-8"
             )
-            logging.info("desktop ready backend=%s frontend=%s", port, frontend_port)
+        logging.info("desktop ready backend=%s frontend=%s", port, frontend_port)
+        if headless:
             print(json.dumps(readiness))
             return 0
         try:
@@ -179,8 +218,11 @@ def run(*, headless: bool = False) -> int:
             raise RuntimeError(
                 "PyWebView is required for the native Windows desktop shell"
             ) from error
-        webview.create_window(APP_NAME, url, width=1600, height=1000, min_size=(1100, 720))
-        webview.start()
+        window = webview.create_window(APP_NAME, url, width=1600, height=1000, min_size=(1100, 720))
+        def loaded():
+            logging.info("native frontend loaded seconds=%.3f", time.monotonic() - started)
+        window.events.loaded += loaded
+        webview.start(storage_path=str(appdata_root() / "webview"))
         return 0
     except Exception as error:
         logging.exception("desktop startup failed")
@@ -196,6 +238,9 @@ def run(*, headless: bool = False) -> int:
                 backend.wait(timeout=8)
             except subprocess.TimeoutExpired:
                 backend.kill()
+        if mutex is not None:
+            kernel.CloseHandle(mutex)
+        logging.info("desktop shutdown complete")
 
 
 def main() -> int:
@@ -205,7 +250,16 @@ def main() -> int:
         action="store_true",
         help="validate startup without opening a native window",
     )
-    return run(headless=parser.parse_args().headless)
+    parser.add_argument("--validate-demo", action="store_true",
+                        help="run isolated synthetic release checks and exit")
+    args = parser.parse_args()
+    if args.validate_demo:
+        from desktop.release_validation import run_demo
+        os.chdir(resources_root())
+        result = run_demo()
+        (appdata_root() / "demo-validation.json").write_text(json.dumps(result), encoding="utf-8")
+        return 0
+    return run(headless=args.headless)
 
 
 if __name__ == "__main__":
