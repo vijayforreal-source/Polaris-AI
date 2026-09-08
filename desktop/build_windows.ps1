@@ -1,6 +1,6 @@
 param(
   [string]$Version = "1.0.0-rc1",
-  [string]$Output = "release\windows"
+  [string]$Output = "release\windows\final"
 )
 $ErrorActionPreference = "Stop"
 $root = Resolve-Path (Join-Path $PSScriptRoot "..")

@@ -13,11 +13,12 @@ DefaultGroupName={#MyAppName}
 OutputDir=..\..\release\windows\installer
 OutputBaseFilename=POLARIS-AI-Setup-{#MyAppVersion}
 PrivilegesRequired=admin
+PrivilegesRequiredOverridesAllowed=commandline
 ArchitecturesInstallIn64BitMode=x64
 UninstallDisplayIcon={app}\{#MyAppExeName}
 
 [Files]
-Source: "..\..\release\windows\dist\POLARIS-AI\*"; DestDir: "{app}"; Flags: recursesubdirs ignoreversion
+Source: "..\..\release\windows\final\dist\POLARIS-AI\*"; DestDir: "{app}"; Flags: recursesubdirs ignoreversion
 
 [Icons]
 Name: "{group}\POLARIS-AI"; Filename: "{app}\{#MyAppExeName}"
