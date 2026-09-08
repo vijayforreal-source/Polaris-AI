@@ -68,13 +68,13 @@ try {
   await send("Runtime.enable"); await send("Page.enable");
   await send("Emulation.setDeviceMetricsOverride", { width: 1600, height: 1000, deviceScaleFactor: 1, mobile: false });
   await send("Page.navigate", { url: "http://127.0.0.1:5173" });
-  await waitFor("document.body.innerText.includes('No verified historical voyage tracks are currently loaded.') && !!document.querySelector('canvas')");
+  await waitFor("document.body.innerText.includes('No verified historical voyage tracks are currently loaded.') && !!document.querySelector('.antarctic-map')");
   await evaluate("document.querySelector('.transit-toggle input').click()");
   assert(await evaluate("document.querySelector('.transit-toggle input').checked"));
   assert.equal(await evaluate("document.querySelectorAll('.transit-voyages button').length"), 0);
   console.log("PASS real empty state and track toggle; no example tracks");
   await click("Sea-Ice Forecast");
-  await waitFor("document.body.innerText.includes('STALE_OBSERVATION') && !!document.querySelector('canvas')");
+  await waitFor("document.body.innerText.includes('STALE_OBSERVATION') && !!document.querySelector('.antarctic-map')");
   await click("+72H");
   assert(await evaluate("document.querySelector('button[aria-pressed=true]').textContent.includes('+72H')"));
   console.log("PASS existing forecast map and horizon selector");
@@ -86,6 +86,7 @@ try {
   await click("Mission Control");
   await waitFor("document.body.innerText.includes('Synthetic fixture - tests only')");
   await evaluate("document.querySelector('.transit-toggle input').click()");
+  await waitFor("document.querySelector('.transit-toggle input').checked === true");
   await waitFor("!!document.querySelector('.transit-voyages button') && !document.body.innerText.includes('Loading verified tracks...')");
   const geometry = await evaluate(`(async()=>{const {createHistoricalTransitLayer}=await import('/src/components/map/HistoricalTransitLayer.js');const layer=createHistoricalTransitLayer([${JSON.stringify(fixture)}]);return layer.getSource().getFeatures()[0].getGeometry().getCoordinates().map(l=>l.length);})()`);
   assert.deepEqual(geometry, [2, 2], "Long gap must not be bridged");
