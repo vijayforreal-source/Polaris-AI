@@ -1,0 +1,10 @@
+{
+  "product": "POLARIS-AI",
+  "version": "1.0.0-rc1",
+  "display_name": "POLARIS-AI 1.0.0-rc1",
+  "model_version": "v0.3",
+  "regional_domain": "Bharati / Prydz Bay",
+  "risk_engine_version": "checkpoint-4",
+  "routing_engine_version": "checkpoint-5",
+  "replanning_engine_version": "checkpoint-6"
+}

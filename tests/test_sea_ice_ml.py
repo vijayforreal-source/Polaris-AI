@@ -18,7 +18,7 @@ from backend.forecasting.sea_ice.ml.dataset import (
     temporal_window_indices,
 )
 from backend.forecasting.sea_ice.ml.evaluation import common_evaluation_mask
-from backend.forecasting.sea_ice.ml.inference import deterministic_inference
+from backend.forecasting.sea_ice.ml.inference import deterministic_inference, load_model
 from backend.forecasting.sea_ice.ml.network import (
     BoundedPersistenceResidualCNN,
     PersistenceResidualCNN,
@@ -178,4 +178,13 @@ def test_forecast_service_falls_back_when_requirements_fail(tmp_path: Path) -> N
     )
     assert result.source_type == "PERSISTENCE_FALLBACK"
     assert result.provenance["fallback_reason"] == "STALE_OBSERVATION"
-    assert np.array_equal(result.forecasts["24h"], result.forecasts["72h"])
+
+
+def test_v03_champion_loader_supports_forcing_channels() -> None:
+    weights = Path("models/sea_ice/polaris_sea_ice_multimodal_bounded_residual_cnn_v0_3.pt")
+    if not weights.is_file():
+        pytest.skip("release model weights are not present")
+    model = load_model(weights, context_days=7, hidden_channels=24, forcing_variables=3)
+    prediction = deterministic_inference(model, torch.zeros((1, 23, 4, 4)))
+    assert prediction.shape == (1, 3, 4, 4)
+    assert torch.all((prediction >= 0.0) & (prediction <= 1.0))

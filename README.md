@@ -71,3 +71,11 @@ data.**
 Observed data, forecast data, and model-generated predictions will remain distinguishable
 throughout the project. Future source datasets will retain provenance, timestamps, units,
 quality information, and native CRS metadata before any canonical conversion.
+
+## Release candidate
+
+POLARIS-AI 1.0.0-rc1 is a Windows desktop release candidate for the Bharati / Prydz Bay regional research prototype. The planned desktop bundle uses a PyWebView shell, a folder-based PyInstaller scientific runtime, a local FastAPI backend, and the React production build. The launcher binds only to loopback, waits for `/health`, verifies the v0.3 model, and stores logs under `%LOCALAPPDATA%\POLARIS-AI`.
+
+Build and deployment instructions are in [Windows deployment](docs/release/WINDOWS_DEPLOYMENT.md), while operators should start with the [quickstart](docs/release/OPERATOR_QUICKSTART.md). The [final architecture](docs/release/POLARIS_FINAL_ARCHITECTURE.md), [release notes](RELEASE_NOTES_1.0.0-rc1.md), [test report](docs/release/FINAL_TEST_REPORT.md), and [release checklist](docs/release/RELEASE_CHECKLIST.md) describe the validation boundary.
+
+POLARIS-AI is a research and operational decision-support prototype. Route and risk outputs are advisory and do not replace certified navigation systems, official ice services, vessel operating procedures, or the authority of the ship's master.
