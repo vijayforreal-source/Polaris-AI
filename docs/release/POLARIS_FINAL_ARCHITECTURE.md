@@ -22,6 +22,12 @@ Captain-controlled active route and replanning
 Mission Control
 ```
 
-Future GNSS/AIS adapters feed a telemetry boundary before entering the same risk and route services. The desktop shell binds the backend to `127.0.0.1`, waits for `/health`, then opens the local production frontend. Runtime state belongs under `%LOCALAPPDATA%\POLARIS-AI`; bundled models, configs, data, and frontend assets are read-only resources.
+Future GNSS/AIS adapters feed a telemetry boundary before entering the same risk and route services. The desktop shell binds the backend to `127.0.0.1`, waits for `/health`, then opens the local production frontend. Logs, readiness and WebView browser storage live under `%LOCALAPPDATA%\POLARIS-AI`; bundled models, configs, data, and frontend assets are read-only resources.
 
 The scientific champion is POLARIS Sea-Ice Multimodal Bounded Residual CNN v0.3. Its validated horizon is 72 hours in the Bharati / Prydz Bay regional prototype. Outputs are advisory decision support and do not replace certified navigation systems or the ship's master.
+
+The frozen backend runs in an owned thread, with bounded shutdown waiting. A Windows
+local-session mutex prevents duplicate desktops. The launcher injects the selected API
+port into the served HTML and configures its frontend origin for CORS. Model verification
+checks the frozen v0.3 SHA-256 before loading and safe inference. Mission, active-route,
+event and sync state are in memory for this research RC and do not survive restart.
