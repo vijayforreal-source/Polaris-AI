@@ -6,7 +6,7 @@ import IceIntelligence from "./views/IceIntelligence.jsx";
 import MissionControl from "./views/MissionControl.jsx";
 import ModelLab from "./views/ModelLab.jsx";
 import SeaIceForecast from "./views/SeaIceForecast.jsx";
-import UnavailableModule from "./views/UnavailableModule.jsx";
+import Navigation from "./views/Navigation.jsx";
 
 const NAVIGATION = [
   { id: "mission", label: "Mission Control", code: "01" },
@@ -47,8 +47,8 @@ export default function App() {
     if (activeView === "models") return <ModelLab />;
     if (activeView === "data") return <DataSources observation={observation} registry={icebergRegistry} />;
     if (activeView === "forecast") return <SeaIceForecast />;
-    return <UnavailableModule title="Navigation Engine" description="Vessel, origin, destination, mission priority, route risk, fuel, and ETA calculations have not been implemented." />;
+    return <Navigation observation={observation} observationError={error} icebergRegistry={icebergRegistry} />;
   };
 
-  return <main className="polaris-app"><header className="command-header"><div className="brand-lockup"><div className="brand-mark">P</div><div><div className="system-kicker">SIH26059 / ANTARCTIC OPERATIONS</div><h1>POLARIS-AI</h1></div></div><div className="command-header-center"><span className="header-section-label">ACTIVE MODULE</span><strong>{NAVIGATION.find((item) => item.id === activeView)?.label.toUpperCase()}</strong></div><div className="system-state"><div><span className="system-state-label">SYSTEM STATE</span><strong>{systemState}</strong></div><span className={`status-dot ${systemState === "DEGRADED" ? "status-dot-warning" : ""}`} /></div></header><section className="operations-layout"><aside className="side-navigation"><div className="nav-section-label">OPERATIONS</div><nav>{NAVIGATION.map((item) => <button className={`nav-item ${activeView === item.id ? "active" : ""}`} key={item.id} type="button" onClick={() => setActiveView(item.id)}><span className="nav-code">{item.code}</span><span className="nav-label">{item.label}</span>{["navigation"].includes(item.id) && <span className="nav-state">PENDING</span>}</button>)}</nav><div className="nav-footer"><div className="nav-footer-row"><span>DISPLAY</span><strong>EPSG:3031</strong></div><div className="nav-footer-row"><span>MODE</span><strong>SCIENTIFIC</strong></div><div className="nav-footer-row"><span>DATA</span><strong>{systemState === "NOMINAL" ? "VERIFIED" : systemState}</strong></div></div></aside>{renderView()}</section></main>;
+  return <main className="polaris-app"><header className="command-header"><div className="brand-lockup"><div className="brand-mark">P</div><div><div className="system-kicker">SIH26059 / ANTARCTIC OPERATIONS</div><h1>POLARIS-AI</h1></div></div><div className="command-header-center"><span className="header-section-label">ACTIVE MODULE</span><strong>{NAVIGATION.find((item) => item.id === activeView)?.label.toUpperCase()}</strong></div><div className="system-state"><div><span className="system-state-label">SYSTEM STATE</span><strong>{systemState}</strong></div><span className={`status-dot ${systemState === "DEGRADED" ? "status-dot-warning" : ""}`} /></div></header><section className="operations-layout"><aside className="side-navigation"><div className="nav-section-label">OPERATIONS</div><nav>{NAVIGATION.map((item) => <button className={`nav-item ${activeView === item.id ? "active" : ""}`} key={item.id} type="button" onClick={() => setActiveView(item.id)}><span className="nav-code">{item.code}</span><span className="nav-label">{item.label}</span></button>)}</nav><div className="nav-footer"><div className="nav-footer-row"><span>DISPLAY</span><strong>EPSG:3031</strong></div><div className="nav-footer-row"><span>MODE</span><strong>SCIENTIFIC</strong></div><div className="nav-footer-row"><span>DATA</span><strong>{systemState === "NOMINAL" ? "VERIFIED" : systemState}</strong></div></div></aside>{renderView()}</section></main>;
 }

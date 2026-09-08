@@ -43,16 +43,20 @@ ws.addEventListener("message", async e => {
   if (message.method === "Runtime.exceptionThrown") errors.push(message.params.exceptionDetails);
   if (message.method === "Fetch.requestPaused") {
     const { requestId, request } = message.params;
-    if (!mock) { await send("Fetch.continueRequest", { requestId }); return; }
-    interceptedRequests.push(request.url);
-    const path = new URL(request.url).pathname;
-    const payload = path.endsWith("/status") ? {
-      available: true, voyage_count: 1, verified_voyage_count: 1, latest_transit: fixture.end_time,
-      data_sources: [fixture.source], track_quality: { USABLE_WITH_GAPS: 1 }, load_errors: [],
-    } : path.includes("/voyage/") ? fixture : { voyages: [fixture], total: 1, offset: 0, limit: 25 };
-    await send("Fetch.fulfillRequest", { requestId, responseCode: 200,
-      responseHeaders: [{ name: "Content-Type", value: "application/json" }, { name: "Access-Control-Allow-Origin", value: "http://127.0.0.1:5173" }],
-      body: Buffer.from(JSON.stringify(payload)).toString("base64") });
+    try {
+      if (!mock) { await send("Fetch.continueRequest", { requestId }); return; }
+      interceptedRequests.push(request.url);
+      const path = new URL(request.url).pathname;
+      const payload = path.endsWith("/status") ? {
+        available: true, voyage_count: 1, verified_voyage_count: 1, latest_transit: fixture.end_time,
+        data_sources: [fixture.source], track_quality: { USABLE_WITH_GAPS: 1 }, load_errors: [],
+      } : path.includes("/voyage/") ? fixture : { voyages: [fixture], total: 1, offset: 0, limit: 25 };
+      await send("Fetch.fulfillRequest", { requestId, responseCode: 200,
+        responseHeaders: [{ name: "Content-Type", value: "application/json" }, { name: "Access-Control-Allow-Origin", value: "http://127.0.0.1:5173" }],
+        body: Buffer.from(JSON.stringify(payload)).toString("base64") });
+    } catch (error) {
+      if (!String(error?.message ?? error).includes("Invalid InterceptionId")) throw error;
+    }
   }
 });
 const evaluate = async expression => {

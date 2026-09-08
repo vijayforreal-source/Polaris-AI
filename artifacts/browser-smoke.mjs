@@ -63,6 +63,13 @@ await clickButton("Ice Intelligence");
 await waitFor("document.body.innerText.includes('Ice Intelligence') && !document.body.innerText.includes('Antarctic Operating Picture')");
 console.log("PASS Ice Intelligence");
 
+await clickButton("Navigation");
+await waitFor("document.body.innerText.includes('Time-Dependent Antarctic Route Planning') && document.body.innerText.includes('ROUTING ENGINE AVAILABLE')");
+const navigationControls = await evaluate("(() => { const planner = document.querySelector('[aria-label=\"Route Planner\"]'); return !!planner && !!planner.querySelector('select') && planner.querySelectorAll('fieldset').length >= 2 && [...planner.querySelectorAll('button')].some(button => button.textContent.includes('PLAN ROUTES')) && document.body.innerText.includes('SAFE · FAST · ECO · BALANCED') && document.body.innerText.includes('CHECK FOR SAFER ROUTE'); })()");
+if (!navigationControls) throw new Error("Navigation workspace controls not rendered");
+if (await evaluate("document.body.innerText.includes('IMPLEMENTATION PENDING') || document.body.innerText.includes('NOT YET AVAILABLE') || document.body.innerText.includes('PENDING')")) throw new Error("Obsolete Navigation placeholder text remains");
+console.log("PASS Navigation workspace, route planner, alternatives, active-route, and replanning controls");
+
 await clickButton("Sea-Ice Forecast");
 await waitFor("document.body.innerText.includes('Sea-Ice Forecast') && !!document.querySelector('.antarctic-map')");
 for (const horizon of [24, 48, 72]) {
@@ -79,5 +86,5 @@ if (!riskControls) throw new Error("Dynamic Risk controls not rendered");
 console.log("PASS Dynamic Risk and route-planning controls");
 
 if (errors.length) throw new Error(`Fatal JavaScript exceptions: ${JSON.stringify(errors)}`);
-await writeFile("artifacts/browser-smoke-results.json", JSON.stringify({ errors, checks: ["mission-control", "operations-status", "connectivity", "ice-intelligence", "sea-ice-forecast", "+24H", "+48H", "+72H", "dynamic-risk", "route-planner"] }, null, 2));
+await writeFile("artifacts/browser-smoke-results.json", JSON.stringify({ errors, checks: ["mission-control", "operations-status", "connectivity", "ice-intelligence", "navigation-workspace", "route-planner", "route-alternatives", "active-route", "replanning", "sea-ice-forecast", "+24H", "+48H", "+72H", "dynamic-risk"] }, null, 2));
 ws.close();
