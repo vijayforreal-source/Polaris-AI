@@ -18,7 +18,7 @@ ArchitecturesInstallIn64BitMode=x64
 UninstallDisplayIcon={app}\{#MyAppExeName}
 
 [Files]
-Source: "..\..\release\windows\final\dist\POLARIS-AI\*"; DestDir: "{app}"; Flags: recursesubdirs ignoreversion
+Source: "..\..\release\windows\rc1\dist\POLARIS-AI\*"; DestDir: "{app}"; Flags: recursesubdirs ignoreversion
 
 [Icons]
 Name: "{group}\POLARIS-AI"; Filename: "{app}\{#MyAppExeName}"

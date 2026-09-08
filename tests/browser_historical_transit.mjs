@@ -1,4 +1,4 @@
-// Optional browser smoke test. Requires Vite :5173, FastAPI :8000 and isolated Chrome CDP :9223.
+// Browser smoke: CDP :9223 and POLARIS_SMOKE_URL (defaults to source development URL).
 // All synthetic responses below exist only in this test's browser session.
 import assert from "node:assert/strict";
 import { mkdir, writeFile } from "node:fs/promises";
@@ -52,7 +52,7 @@ ws.addEventListener("message", async e => {
         data_sources: [fixture.source], track_quality: { USABLE_WITH_GAPS: 1 }, load_errors: [],
       } : path.includes("/voyage/") ? fixture : { voyages: [fixture], total: 1, offset: 0, limit: 25 };
       await send("Fetch.fulfillRequest", { requestId, responseCode: 200,
-        responseHeaders: [{ name: "Content-Type", value: "application/json" }, { name: "Access-Control-Allow-Origin", value: "http://127.0.0.1:5173" }],
+        responseHeaders: [{ name: "Content-Type", value: "application/json" }, { name: "Access-Control-Allow-Origin", value: new URL(process.env.POLARIS_SMOKE_URL || "http://127.0.0.1:5173").origin }],
         body: Buffer.from(JSON.stringify(payload)).toString("base64") });
     } catch (error) {
       if (!String(error?.message ?? error).includes("Invalid InterceptionId")) throw error;
@@ -98,7 +98,7 @@ try {
   assert(await evaluate("document.body.innerText.includes('USNIC')"));
   console.log("PASS iceberg module");
   mock = true;
-  await send("Fetch.enable", { patterns: [{ urlPattern: "*://127.0.0.1:8000/api/historical-transit/*" }] });
+  await send("Fetch.enable", { patterns: [{ urlPattern: "*://127.0.0.1:*/api/historical-transit/*" }] });
   await send("Page.navigate", { url: process.env.POLARIS_SMOKE_URL || "http://127.0.0.1:5173" });
   await waitFor("document.body.innerText.includes('Synthetic fixture - tests only')");
   await setTransitToggle(true);
