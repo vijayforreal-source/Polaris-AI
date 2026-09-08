@@ -3,6 +3,7 @@ import logging
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from backend.app.api.connectivity import router as connectivity_router
 from backend.app.api.health import router as health_router
 from backend.app.api.historical_transit import router as historical_transit_router
 from backend.app.api.icebergs import router as iceberg_router
@@ -35,6 +36,7 @@ app.include_router(risk_router)
 app.include_router(routes_router)
 app.include_router(replanning_router)
 app.include_router(operations_router)
+app.include_router(connectivity_router)
 app.include_router(sea_ice_router)
 app.include_router(iceberg_router)
 app.include_router(trajectory_router)

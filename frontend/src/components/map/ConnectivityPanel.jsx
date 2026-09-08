@@ -1,0 +1,8 @@
+import { useEffect, useState } from "react";
+import { fetchCacheStatus, fetchConnectivityStatus, fetchSyncStatus } from "../../services/connectivityApi.js";
+
+export default function ConnectivityPanel() {
+  const [status, setStatus] = useState(null); const [sync, setSync] = useState(null); const [cache, setCache] = useState(null); const [error, setError] = useState("");
+  useEffect(() => { Promise.all([fetchConnectivityStatus(), fetchSyncStatus(), fetchCacheStatus()]).then(([connection, queue, localCache]) => { setStatus(connection); setSync(queue); setCache(localCache); }).catch(e => setError(e.message)); }, []);
+  return <section className="rail-section connectivity-panel" aria-label="Connectivity and offline status"><span className="panel-kicker">CHECKPOINT 8 / SHIP NETWORK</span><h3>Connection</h3>{error && <p role="alert">{error}</p>}{status && <><strong>{status.state}</strong><div className="forecast-detail"><span>Bandwidth</span><strong>{status.estimated_bandwidth_class}</strong></div><div className="forecast-detail"><span>Last checked</span><strong>{new Date(status.last_checked_at).toLocaleTimeString()}</strong></div>{status.manual_override && <small>MANUAL TEST OVERRIDE</small>}{status.state === "OFFLINE" && <p>OFFLINE MODE — local capabilities remain available where cached data is valid.</p>}{status.state === "SATCOM_LIMITED" && <p>SATCOM LIMITED — critical and high-priority updates are prioritized.</p>}</>}{sync && <div className="forecast-detail"><span>Pending sync</span><strong>{sync.pending}</strong></div>}{cache && <div className="forecast-detail"><span>Cached sources</span><strong>{cache.sources.filter(source => source.usable_offline && source.valid).length}</strong></div>}</section>;
+}

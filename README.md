@@ -3,12 +3,12 @@
 POLARIS-AI addresses Smart India Hackathon 2026 problem statement **SIH26059 — AI-Enabled
 Antarctic Sea-Ice, Iceberg Trajectory, and Navigation Decision Support System**.
 
-The project now includes Checkpoint 6 manual dynamic replanning, the Checkpoint 5 time-dependent regional route planner, the Checkpoint 4 dynamic risk engine, plus the Checkpoint 3 sea-ice prediction engine, with **v0.3** selected
+The project now includes Checkpoint 8 external adapter boundaries, offline connectivity and sync hardening, Checkpoint 7 operational integration, Checkpoint 6 manual dynamic replanning, the Checkpoint 5 time-dependent regional route planner, the Checkpoint 4 dynamic risk engine, plus the Checkpoint 3 sea-ice prediction engine, with **v0.3** selected
 as the historical champion (mean locked MAE 3.911187 percentage points). The forecast API,
 historical demonstration and Sea-Ice Forecast map distinguish model output, observations
 and explicit persistence fallback. ERA5 is historical reanalysis, not future weather.
 See [Checkpoint 3](docs/research/checkpoint-3-sea-ice-forecasting.md) for operation and limitations.
-Routing and manual/event-triggered replanning are available for the Bharati / Prydz Bay regional study grid through +72H. They are research decision-support outputs, not certified navigation; operational integration is deferred to Checkpoint 7.
+Routing, manual/event-triggered replanning, operational health, and offline-first synchronization are available for the Bharati / Prydz Bay regional study grid through +72H. They are research decision-support outputs, not certified navigation; no live AIS/GPS or direct satellite control is claimed.
 
 ## Future architecture
 
